@@ -1,7 +1,7 @@
 #bot.py
 
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
 import discord
 from discord.ext import commands
@@ -16,11 +16,15 @@ from datetime import datetime
 from selenium.webdriver.common.action_chains import ActionChains
 
 
+load_dotenv()
+
+TOKEN = os.getenv('DISCORD_TOKEN')
+
+
 
 chrome_driver_path = 'path/to/chromedriver'
 driver = webdriver.Chrome(chrome_driver_path)
 
-TOKEN = os.getenv('DISCORD_TOKEN')
 
 intents = discord.Intents.all()
 
