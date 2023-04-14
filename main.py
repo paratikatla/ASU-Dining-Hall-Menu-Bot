@@ -1021,7 +1021,32 @@ async def manzy_menu(ctx, arg1):
 
     await ctx.send(embed=embed)
 
+@bot.command(name='pitchforks')
+async def pitcforks_menu(ctx, arg1):
+    
+    browser = await launch()
+    page = await browser.newPage()
+    
+    page.setDefaultNavigationTimeout(60000)
+    await page.goto('https://asu.campusdish.com/en/diningvenues/tempepitchforksrestaurant/')
+    
+    try:
+        subscription_modal_button = await page.xpath('//*[@id="modal-root-mail-subsription"]/div/div/div/div/div/div[1]/button')
+        if subscription_modal_button:
+            await asyncio.wait_for(subscription_modal_button[0].click(), timeout=10)
+    except TimeoutError:
+        pass
 
+    try:
+        cookie_banner_button = await page.xpath('//*[@id="onetrust-close-btn-container"]/button')
+        if cookie_banner_button:
+            await asyncio.wait_for(cookie_banner_button[0].click(), timeout=10)
+    except TimeoutError:
+        pass
+    
+    food_dict = {}
+
+    
 
 @bot.command()
 @commands.is_owner()
