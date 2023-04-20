@@ -1022,7 +1022,7 @@ async def manzy_menu(ctx, arg1):
     await ctx.send(embed=embed)
 
 @bot.command(name='pitchforks')
-async def pitcforks_menu(ctx, arg1):
+async def pitchforks_menu(ctx, arg1):
     
     browser = await launch()
     page = await browser.newPage()
@@ -1045,6 +1045,210 @@ async def pitcforks_menu(ctx, arg1):
         pass
     
     food_dict = {}
+    
+    async def scrape_food(xpath, key):
+        try:
+            food_element = await page.xpath(xpath)
+            food_element = food_element[0]
+            food_elements = await food_element.querySelectorAll('div.sc-tQuYZ.gvgoZc > button > h3 > span')
+            
+            foods = []
+            
+            for food in food_elements:
+                food_text = await page.evaluate('(element) => element.textContent', food)
+                if food_text:
+                    foods.append(food_text)
+                
+            food_dict.update({key: foods})
+        except:
+            pass
+        
+    requestedMeal = arg1.lower()
+    
+    if(requestedMeal == 'breakfast'):
+        
+        if(day == 5 or day == 6):
+            await ctx.send("Today is a weekend which means that Pitchforks Dining Hall does not serve Breakfast, the dining hall opens at 4 PM for Dinner")
+            
+        else:
+            await asyncio.sleep(2)
+
+            meal = await page.querySelector('.ChoosenMeal')
+            meal = await page.evaluate('(element) => element.textContent', meal)
+
+            if meal != 'Breakfast':
+                try:
+                    swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
+                    await swapButton.click()
+                except:
+                    pass
+
+                dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+                await dropDown.click()
+
+                try:
+                    breakfastOption = await page.waitForXPath('//div[text()="Breakfast"]', timeout=5000)
+                    await breakfastOption.click()
+                except:
+                    await ctx.send("Sorry but it does not appear that there is a Breakfast option today at Pitchforks dining...")
+
+                doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+
+                await doneButton.click()
+                await page.waitForSelector('.ChoosenMeal', timeout=60000)
+
+                await asyncio.sleep(2)
+                
+            await scrape_food('//*[@id="14584"]', 'International')
+            await scrape_food('//*[@id="17302"]', 'Vegan')
+            await scrape_food('//*[@id="17305"]', 'Soups')
+            
+            international = food_dict['International']
+            international = ', '.join(international)
+            
+            vegan = food_dict['Vegan']
+            vegan = ', '.join(vegan)
+            
+            soups = food_dict['Soups']
+            soups = ', '.join(soups)
+            
+            embed = discord.Embed(title='Pitchforks Dining Hall Breakfast', description='Pitchforks Dining Hall Breakfast Menu')
+            
+            embed.set_thumbnail(url='https://i.imgur.com/FvCWGxy.jpg')
+            
+            try:
+                embed.add_field(name='International Food Station', value=international, inline=False)
+            except:
+                pass
+            
+            try:
+                embed.add_field(name='Vegan Station', value=vegan, inline=False)
+            except:
+                pass
+            
+            try:
+                embed.add_field(name='Soups', value=soups, inline=False)
+            except:
+                pass
+            
+            embed.set_image(url='https://i.imgur.com/hlzODkP.png')
+        
+        if(requestedMeal == 'lunch'):
+            
+            if(day == 5 or day == 6):
+                await ctx.send("Today is a weekend which means that Pitchforks Dining Hall does not serve Lunch, the dining hall opens at 4 PM for Dinner")
+        
+            else:
+                await asyncio.sleep(2)
+
+                meal = await page.querySelector('.ChoosenMeal')
+                meal = await page.evaluate('(element) => element.textContent', meal)
+
+                if meal != 'Lunch':
+                    try:
+                        swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
+                        await swapButton.click()
+                    except:
+                        pass
+
+                    dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+                    await dropDown.click()
+
+                    try:
+                        breakfastOption = await page.waitForXPath('//div[text()="Lunch"]', timeout=5000)
+                        await breakfastOption.click()
+                    except:
+                        await ctx.send("Sorry but it does not appear that there is a Lunch option today at Pitchforks dining...")
+
+                    doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+
+                    await doneButton.click()
+                    await page.waitForSelector('.ChoosenMeal', timeout=60000)
+
+                    await asyncio.sleep(2)
+                    
+                await scrape_food('//*[@id="17303"]', 'Salad & Deli')
+                await scrape_food('//*[@id="14584"]', 'International')
+                await scrape_food('//*[@id="17302"]', 'Vegan')
+                await scrape_food('//*[@id="17300"]', 'Pizza')
+                await scrape_food('//*[@id="17299"]', 'Asian')
+                await scrape_food('//*[@id="17301"]', 'Limon')
+                await scrape_food('//*[@id="17305"]', 'Soups')
+                await scrape_food('//*[@id="26390"]', 'Waffle Station & Ice Cream')
+                
+                saladDeli = food_dict['Salad & Deli']
+                saladDeli = ', '.join(saladDeli)
+                
+                international = food_dict['International']
+                international = ', '.join(international)
+                
+                vegan = food_dict['Vegan']
+                vegan = ', '.join(vegan)
+                
+                pizza = food_dict['Pizza']
+                pizza = ', '.join(pizza)
+                
+                asian = food_dict['Asian']
+                asian = ', '.join(asian)
+                
+                limon = food_dict['Limon']
+                limon = ', '.join(limon)
+                
+                soups = food_dict['Soups']
+                soups = ', '.join(soups)
+                
+                waffleAndCream = food_dict['Waffle Station & Ice Cream']
+                waffleAndCream = ', '.join(waffleAndCream)
+                
+                embed = discord.Embed(title="Pitchforks Dining Hall Lunch", description="Pitchforks Dining Hall Lunch Menu")
+                
+                embed.set_thumbnail(url='https://i.imgur.com/FvCWGxy.jpg')
+                
+                try:
+                    embed.add_field(name="International Food Station", value=international, inline=False)
+                except:
+                    pass
+                
+                try:
+                    embed.add_field(name='Vegan Station', value=vegan, inline=False)
+                except:
+                    pass
+                
+                try:
+                    embed.add_field(name="Asian Food Station", value=asian, inline=False)
+                except:
+                    pass
+                
+                try:
+                    embed.add_field(name='Limon', value=limon, inline=False)
+                except:
+                    pass
+                
+                try:
+                    embed.add_field(name='Pizza', value=pizza, inline=False)
+                except:
+                    pass
+                
+                try:
+                    embed.add_field(name='Soups', value=soups, inline=True)
+                except:
+                    pass
+                
+                try:
+                    embed.add_field(name='Salad & Deli', value=saladDeli, inline=False)
+                except:
+                    pass
+                
+                embed.set_image(url='https://i.imgur.com/hlzODkP.png')
+                
+                
+                
+                
+        
+    await ctx.send(embed=embed)
+            
+            
+    
 
     
 
