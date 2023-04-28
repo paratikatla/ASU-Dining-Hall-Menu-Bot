@@ -1240,7 +1240,36 @@ async def pitchforks_menu(ctx, arg1):
                     pass
                 
                 embed.set_image(url='https://i.imgur.com/hlzODkP.png')
-                
+        
+        if(requestedMeal == 'Dinner'):
+            
+            await asyncio.sleep(2)
+
+            meal = await page.querySelector('.ChoosenMeal')
+            meal = await page.evaluate('(element) => element.textContent', meal)
+
+            if meal != 'Dinner':
+                try:
+                    swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
+                    await swapButton.click()
+                except:
+                    pass
+
+                dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+                await dropDown.click()
+
+                try:
+                    breakfastOption = await page.waitForXPath('//div[text()="Dinner"]', timeout=5000)
+                    await breakfastOption.click()
+                except:
+                    await ctx.send("Sorry but it does not appear that there is a Breakfast option today at Pitchforks dining...")
+
+                doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+
+                await doneButton.click()
+                await page.waitForSelector('.ChoosenMeal', timeout=60000)
+
+                await asyncio.sleep(2) 
                 
                 
                 
