@@ -352,6 +352,157 @@ async def manzy(requestedMeal, food_dict):
 
 
 async def pitchforks(requestedMeal, food_dict):
+    browser = await launch()
+    page = await browser.newPage()
+    
+    page.setDefaultNavigationTimeout(60000)
+    await page.goto('https://asu.campusdish.com/en/diningvenues/tempepitchforksrestaurant/')
+    
+    try:
+        subscription_modal_button = await page.xpath('//*[@id="modal-root-mail-subsription"]/div/div/div/div/div/div[1]/button')
+        if subscription_modal_button:
+            await asyncio.wait_for(subscription_modal_button[0].click(), timeout=10)
+    except TimeoutError:
+        pass
+
+    try:
+        cookie_banner_button = await page.xpath('//*[@id="onetrust-close-btn-container"]/button')
+        if cookie_banner_button:
+            await asyncio.wait_for(cookie_banner_button[0].click(), timeout=10)
+    except TimeoutError:
+        pass
+    
+    
+    async def scrape_food(xpath, key):
+        try:
+            food_element = await page.xpath(xpath)
+            food_element = food_element[0]
+            food_elements = await food_element.querySelectorAll('div.sc-tQuYZ.gvgoZc > button > h3 > span')
+            
+            foods = []
+            
+            for food in food_elements:
+                food_text = await page.evaluate('(element) => element.textContent', food)
+                if food_text:
+                    foods.append(food_text)
+                
+            food_dict.update({key: foods})
+        except:
+            pass
+        
+        
+    if(requestedMeal == 'breakfast'):
+
+            await asyncio.sleep(2)
+
+            meal = await page.querySelector('.ChoosenMeal')
+            meal = await page.evaluate('(element) => element.textContent', meal)
+
+            if meal != 'Breakfast':
+                try:
+                    swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
+                    await swapButton.click()
+                except:
+                    pass
+
+                dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+                await dropDown.click()
+
+                try:
+                    breakfastOption = await page.waitForXPath('//div[text()="Breakfast"]', timeout=5000)
+                    await breakfastOption.click()
+                except:
+                    pass
+
+                doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+
+                await doneButton.click()
+                await page.waitForSelector('.ChoosenMeal', timeout=60000)
+
+                await asyncio.sleep(2)
+            
+            await scrape_food('//*[@id="14584"]', 'International')
+            await scrape_food('//*[@id="17302"]', 'Vegan')
+            await scrape_food('//*[@id="17305"]', 'Soups')
+    
+    if(requestedMeal == 'lunch'):
+        
+        await asyncio.sleep(2)
+
+        meal = await page.querySelector('.ChoosenMeal')
+        meal = await page.evaluate('(element) => element.textContent', meal)
+
+        if meal != 'Lunch':
+            try:
+                swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
+                await swapButton.click()
+            except:
+                pass
+
+            dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+            await dropDown.click()
+
+            try:
+                breakfastOption = await page.waitForXPath('//div[text()="Lunch"]', timeout=5000)
+                await breakfastOption.click()
+            except:
+                pass
+
+            doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+
+            await doneButton.click()
+            await page.waitForSelector('.ChoosenMeal', timeout=60000)
+
+            await asyncio.sleep(2)
+            
+        await scrape_food('//*[@id="17303"]', 'Salad & Deli')
+        await scrape_food('//*[@id="14584"]', 'International')
+        await scrape_food('//*[@id="17302"]', 'Vegan')
+        await scrape_food('//*[@id="17300"]', 'Pizza')
+        await scrape_food('//*[@id="17299"]', 'Asian')
+        await scrape_food('//*[@id="17301"]', 'Limon')
+        await scrape_food('//*[@id="17305"]', 'Soups')
+        await scrape_food('//*[@id="26390"]', 'Waffle Station & Ice Cream')
+        
+        
+    if(requestedMeal == 'Dinner'):
+            
+        await asyncio.sleep(2)
+
+        meal = await page.querySelector('.ChoosenMeal')
+        meal = await page.evaluate('(element) => element.textContent', meal)
+
+        if meal != 'Dinner':
+            try:
+                swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
+                await swapButton.click()
+            except:
+                pass
+
+            dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+            await dropDown.click()
+
+            try:
+                breakfastOption = await page.waitForXPath('//div[text()="Dinner"]', timeout=5000)
+                await breakfastOption.click()
+            except:
+                pass
+
+            doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+
+            await doneButton.click()
+            await page.waitForSelector('.ChoosenMeal', timeout=60000)
+
+            await asyncio.sleep(2) 
+            
+        await scrape_food('//*[@id="17303"]', 'Salad & Deli')
+        await scrape_food('//*[@id="14584"]', 'International')
+        await scrape_food('//*[@id="17302"]', 'Vegan')
+        await scrape_food('//*[@id="17300"]', 'Pizza')
+        await scrape_food('//*[@id="17299"]', 'Asian')
+        await scrape_food('//*[@id="17301"]', 'Limon')
+        await scrape_food('//*[@id="17305"]', 'Soups')
+        await scrape_food('//*[@id="26390"]', 'Waffle Station & Ice Cream')
 
 def checkTime():
     threading.Timer(1, checkTime).start()
