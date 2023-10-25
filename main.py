@@ -36,6 +36,10 @@ async def on_ready():
 @bot.command(name='tooker')
 async def tooker_menu(ctx, arg1):
     
+    now = datetime.now()
+    hour = now.hour
+    day = now.weekday()
+    
     browser = await launch()
     page = await browser.newPage()
     
@@ -62,8 +66,8 @@ async def tooker_menu(ctx, arg1):
         try:
             food_element = await page.xpath(xpath)
             food_element = food_element[0]
-            food_elements = await food_element.querySelectorAll('div.sc-tQuYZ.gvgoZc > button > h3 > span')
-            
+            food_elements = await food_element.querySelectorAll('div.sc-eZkCL.hKoqlN > button > h3 > span')
+
             foods = []
             
             for food in food_elements:
@@ -96,7 +100,7 @@ async def tooker_menu(ctx, arg1):
                 except:
                     pass
 
-                dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+                dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
                 await dropDown.click()
 
                 try:
@@ -105,7 +109,7 @@ async def tooker_menu(ctx, arg1):
                 except:
                     await ctx.send("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-                doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+                doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
 
                 await doneButton.click()
                 await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -166,7 +170,7 @@ async def tooker_menu(ctx, arg1):
                 except:
                     pass
 
-                dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+                dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
                 await dropDown.click()
 
                 try:
@@ -175,7 +179,7 @@ async def tooker_menu(ctx, arg1):
                 except:
                     await ctx.send("Sorry but it does not appear that there is a Lunch option today at Tooker dining...")
 
-                doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+                doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
 
                 await doneButton.click()
                 await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -266,7 +270,7 @@ async def tooker_menu(ctx, arg1):
             except:
                 pass
 
-            dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
             await dropDown.click()
 
             try:
@@ -275,7 +279,7 @@ async def tooker_menu(ctx, arg1):
             except:
                 await ctx.send("Sorry but it does not appear that there is a Dinner option today at Tooker dining...")
 
-            doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -370,7 +374,7 @@ async def tooker_menu(ctx, arg1):
                 except:
                     pass
 
-                dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+                dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
                 await dropDown.click()
 
                 try:
@@ -379,7 +383,7 @@ async def tooker_menu(ctx, arg1):
                 except:
                     await ctx.send("Sorry but it does not appear that there is a Brunch option today at Tooker dining...")
 
-                doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+                doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
 
                 await doneButton.click()
                 await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -444,6 +448,10 @@ async def tooker_menu(ctx, arg1):
 @bot.command(name='manzanita')
 async def manzy_menu(ctx, arg1):
     
+    now = datetime.now()
+    hour = now.hour
+    day = now.weekday()
+    
     browser = await launch()
     page = await browser.newPage()
     
@@ -470,7 +478,7 @@ async def manzy_menu(ctx, arg1):
         try:
             food_element = await page.xpath(xpath)
             food_element = food_element[0]
-            food_elements = await food_element.querySelectorAll('div.sc-tQuYZ.gvgoZc > button > h3 > span')
+            food_elements = await food_element.querySelectorAll('div.sc-eZkCL.hKoqlN > button > h3 > span')
             
             foods = []
             
@@ -496,35 +504,39 @@ async def manzy_menu(ctx, arg1):
                 meal = await page.evaluate('(element) => element.textContent', meal)
 
                 if meal != 'Breakfast':
+                    print('wrong meal')
                     try:
                         swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                         await swapButton.click()
+                        print('swap button clicked')
                     except:
                         pass
 
-                    dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+                    dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
                     await dropDown.click()
+                    print('dropdown clicked')
 
                     try:
                         breakfastOption = await page.waitForXPath('//div[text()="Breakfast"]', timeout=5000)
                         await breakfastOption.click()
+                        print('breakfast option clicked')
                     except:
                         await ctx.send("Sorry but it does not appear that there is a Breakfast option today at Manzanita dining...")
 
-                    doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+                    doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
 
                     await doneButton.click()
                     await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
                     await asyncio.sleep(2)
                     
-                await scrape_food('//*[@id="13988"]', 'Daily Root')
+                await scrape_food('//*[@id="9135"]', 'Action')
                 await scrape_food('//*[@id="9139"]', 'Home Zone')
                 await scrape_food('//*[@id="9141"]', 'Salad Bar')
                 await scrape_food('//*[@id="9138"]', 'Grill')
                 
-                dailyRoot = food_dict['Daily Root']
-                dailyRoot = ', '.join(dailyRoot)
+                Action = food_dict['Action']
+                Action = ', '.join(Action)
                 
                 homeZone = food_dict['Home Zone']
                 homeZone = ', '.join(homeZone)
@@ -540,7 +552,7 @@ async def manzy_menu(ctx, arg1):
                 embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
                 
                 try:
-                    embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+                    embed.add_field(name="Action:", value=Action, inline=False)
                 except:
                     pass
                 
@@ -579,7 +591,7 @@ async def manzy_menu(ctx, arg1):
                 except:
                     pass
 
-                dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+                dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
                 await dropDown.click()
 
                 try:
@@ -588,21 +600,21 @@ async def manzy_menu(ctx, arg1):
                 except:
                     await ctx.send("Sorry but it does not appear that there is a Lunch option today at Manzanita dining...")
 
-                doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+                doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
 
                 await doneButton.click()
                 await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
                 await asyncio.sleep(2)
                     
-            await scrape_food('//*[@id="13988"]', 'Daily Root')
+            await scrape_food('//*[@id="9135"]', 'Action')
             await scrape_food('//*[@id="9139"]', 'Home Zone')
             await scrape_food('//*[@id="9138"]', 'Grill')
             await scrape_food('//*[@id="9140"]', 'Pizza')
             await scrape_food('//*[@id="13991"]', 'Sazon Station')
             
-            dailyRoot = food_dict['Daily Root']
-            dailyRoot = ', '.join(dailyRoot)
+            Action = food_dict['Action']
+            Action = ', '.join(Action)
             
             homeZone = food_dict['Home Zone']
             homeZone = ', '.join(homeZone)
@@ -621,7 +633,7 @@ async def manzy_menu(ctx, arg1):
             embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
             
             try:
-                embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+                embed.add_field(name="Action:", value=Action, inline=False)
             except:
                 pass
             
@@ -661,7 +673,7 @@ async def manzy_menu(ctx, arg1):
             except:
                 pass
 
-            dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
@@ -670,21 +682,21 @@ async def manzy_menu(ctx, arg1):
             except:
                 await ctx.send("Sorry but it does not appear that there is a Dinner option today at Manzanita dining...")
 
-            doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
             await asyncio.sleep(2)
                 
-        await scrape_food('//*[@id="13988"]', 'Daily Root')
+        await scrape_food('//*[@id="9135"]', 'Action')
         await scrape_food('//*[@id="9139"]', 'Home Zone')
         await scrape_food('//*[@id="9138"]', 'Grill')
         await scrape_food('//*[@id="9140"]', 'Pizza')
         await scrape_food('//*[@id="13991"]', 'Sazon Station')
         
-        dailyRoot = food_dict['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
+        Action = food_dict['Action']
+        Action = ', '.join(Action)
         
         homeZone = food_dict['Home Zone']
         homeZone = ', '.join(homeZone)
@@ -703,7 +715,7 @@ async def manzy_menu(ctx, arg1):
         embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
         
         try:
-            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+            embed.add_field(name="Action:", value=Action, inline=False)
         except:
             pass
         
@@ -734,6 +746,10 @@ async def manzy_menu(ctx, arg1):
 @bot.command(name='manzy')
 async def manzy_menu(ctx, arg1):
     
+    now = datetime.now()
+    hour = now.hour
+    day = now.weekday()
+    
     browser = await launch()
     page = await browser.newPage()
     
@@ -760,7 +776,7 @@ async def manzy_menu(ctx, arg1):
         try:
             food_element = await page.xpath(xpath)
             food_element = food_element[0]
-            food_elements = await food_element.querySelectorAll('div.sc-tQuYZ.gvgoZc > button > h3 > span')
+            food_elements = await food_element.querySelectorAll('div.sc-eZkCL.hKoqlN > button > h3 > span')
             
             foods = []
             
@@ -792,7 +808,7 @@ async def manzy_menu(ctx, arg1):
                     except:
                         pass
 
-                    dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+                    dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
                     await dropDown.click()
 
                     try:
@@ -801,24 +817,24 @@ async def manzy_menu(ctx, arg1):
                     except:
                         await ctx.send("Sorry but it does not appear that there is a Breakfast option today at Manzanita dining...")
 
-                    doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+                    doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
 
                     await doneButton.click()
                     await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
                     await asyncio.sleep(2)
                     
-                await scrape_food('//*[@id="13988"]', 'Daily Root')
+                await scrape_food('//*[@id="9135"]', 'Action')
                 await scrape_food('//*[@id="9139"]', 'Home Zone')
                 await scrape_food('//*[@id="9141"]', 'Salad Bar')
                 await scrape_food('//*[@id="9138"]', 'Grill')
                 
-                dailyRoot = food_dict['Daily Root']
-                dailyRoot = ', '.join(dailyRoot)
+                Action = food_dict['Action']
+                Action = ', '.join(Action)
                 
                 homeZone = food_dict['Home Zone']
                 homeZone = ', '.join(homeZone)
-                
+            
                 saladBar = food_dict['Salad Bar']
                 saladBar = ', '.join(saladBar)
                 
@@ -830,7 +846,7 @@ async def manzy_menu(ctx, arg1):
                 embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
                 
                 try:
-                    embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+                    embed.add_field(name="Action:", value=Action, inline=False)
                 except:
                     pass
                 
@@ -869,7 +885,7 @@ async def manzy_menu(ctx, arg1):
                 except:
                     pass
 
-                dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+                dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
                 await dropDown.click()
 
                 try:
@@ -878,21 +894,21 @@ async def manzy_menu(ctx, arg1):
                 except:
                     await ctx.send("Sorry but it does not appear that there is a Lunch option today at Manzanita dining...")
 
-                doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+                doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
 
                 await doneButton.click()
                 await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
                 await asyncio.sleep(2)
                     
-            await scrape_food('//*[@id="13988"]', 'Daily Root')
+            await scrape_food('//*[@id="9135"]', 'Action')
             await scrape_food('//*[@id="9139"]', 'Home Zone')
             await scrape_food('//*[@id="9138"]', 'Grill')
             await scrape_food('//*[@id="9140"]', 'Pizza')
             await scrape_food('//*[@id="13991"]', 'Sazon Station')
             
-            dailyRoot = food_dict['Daily Root']
-            dailyRoot = ', '.join(dailyRoot)
+            Action = food_dict['Action']
+            Action = ', '.join(Action)
             
             homeZone = food_dict['Home Zone']
             homeZone = ', '.join(homeZone)
@@ -911,7 +927,7 @@ async def manzy_menu(ctx, arg1):
             embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
             
             try:
-                embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+                embed.add_field(name="Action:", value=Action, inline=False)
             except:
                 pass
             
@@ -951,7 +967,7 @@ async def manzy_menu(ctx, arg1):
             except:
                 pass
 
-            dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
@@ -960,21 +976,21 @@ async def manzy_menu(ctx, arg1):
             except:
                 await ctx.send("Sorry but it does not appear that there is a Dinner option today at Manzanita dining...")
 
-            doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
             await asyncio.sleep(2)
                 
-        await scrape_food('//*[@id="13988"]', 'Daily Root')
+        await scrape_food('//*[@id="9135"]', 'Action')
         await scrape_food('//*[@id="9139"]', 'Home Zone')
         await scrape_food('//*[@id="9138"]', 'Grill')
         await scrape_food('//*[@id="9140"]', 'Pizza')
         await scrape_food('//*[@id="13991"]', 'Sazon Station')
         
-        dailyRoot = food_dict['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
+        Action = food_dict['Action']
+        Action = ', '.join(Action)
         
         homeZone = food_dict['Home Zone']
         homeZone = ', '.join(homeZone)
@@ -993,7 +1009,7 @@ async def manzy_menu(ctx, arg1):
         embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
         
         try:
-            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+            embed.add_field(name="Action:", value=Action, inline=False)
         except:
             pass
         
@@ -1024,6 +1040,10 @@ async def manzy_menu(ctx, arg1):
 @bot.command(name='pitchforks')
 async def pitchforks_menu(ctx, arg1):
     
+    now = datetime.now()
+    hour = now.hour
+    day = now.weekday()
+    
     browser = await launch()
     page = await browser.newPage()
     
@@ -1050,7 +1070,7 @@ async def pitchforks_menu(ctx, arg1):
         try:
             food_element = await page.xpath(xpath)
             food_element = food_element[0]
-            food_elements = await food_element.querySelectorAll('div.sc-tQuYZ.gvgoZc > button > h3 > span')
+            food_elements = await food_element.querySelectorAll('div.sc-eZkCL.hKoqlN > button > h3 > span')
             
             foods = []
             
@@ -1083,7 +1103,7 @@ async def pitchforks_menu(ctx, arg1):
                 except:
                     pass
 
-                dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+                dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
                 await dropDown.click()
 
                 try:
@@ -1092,7 +1112,7 @@ async def pitchforks_menu(ctx, arg1):
                 except:
                     await ctx.send("Sorry but it does not appear that there is a Breakfast option today at Pitchforks dining...")
 
-                doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+                doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
 
                 await doneButton.click()
                 await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -1133,143 +1153,219 @@ async def pitchforks_menu(ctx, arg1):
             
             embed.set_image(url='https://i.imgur.com/hlzODkP.png')
         
-        if(requestedMeal == 'lunch'):
-            
-            if(day == 5 or day == 6):
-                await ctx.send("Today is a weekend which means that Pitchforks Dining Hall does not serve Lunch, the dining hall opens at 4 PM for Dinner")
+    if(requestedMeal == 'lunch'):
         
-            else:
-                await asyncio.sleep(2)
+        if(day == 5 or day == 6):
+            await ctx.send("Today is a weekend which means that Pitchforks Dining Hall does not serve Lunch, the dining hall opens at 4 PM for Dinner")
 
-                meal = await page.querySelector('.ChoosenMeal')
-                meal = await page.evaluate('(element) => element.textContent', meal)
 
-                if meal != 'Lunch':
-                    try:
-                        swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
-                        await swapButton.click()
-                    except:
-                        pass
-
-                    dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
-                    await dropDown.click()
-
-                    try:
-                        breakfastOption = await page.waitForXPath('//div[text()="Lunch"]', timeout=5000)
-                        await breakfastOption.click()
-                    except:
-                        await ctx.send("Sorry but it does not appear that there is a Lunch option today at Pitchforks dining...")
-
-                    doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
-
-                    await doneButton.click()
-                    await page.waitForSelector('.ChoosenMeal', timeout=60000)
-
-                    await asyncio.sleep(2)
-                    
-                await scrape_food('//*[@id="17303"]', 'Salad & Deli')
-                await scrape_food('//*[@id="14584"]', 'International')
-                await scrape_food('//*[@id="17302"]', 'Vegan')
-                await scrape_food('//*[@id="17300"]', 'Pizza')
-                await scrape_food('//*[@id="17299"]', 'Asian')
-                await scrape_food('//*[@id="17301"]', 'Limon')
-                await scrape_food('//*[@id="17305"]', 'Soups')
-                await scrape_food('//*[@id="26390"]', 'Waffle Station & Ice Cream')
-                
-                saladDeli = food_dict['Salad & Deli']
-                saladDeli = ', '.join(saladDeli)
-                
-                international = food_dict['International']
-                international = ', '.join(international)
-                
-                vegan = food_dict['Vegan']
-                vegan = ', '.join(vegan)
-                
-                pizza = food_dict['Pizza']
-                pizza = ', '.join(pizza)
-                
-                asian = food_dict['Asian']
-                asian = ', '.join(asian)
-                
-                limon = food_dict['Limon']
-                limon = ', '.join(limon)
-                
-                soups = food_dict['Soups']
-                soups = ', '.join(soups)
-                
-                waffleAndCream = food_dict['Waffle Station & Ice Cream']
-                waffleAndCream = ', '.join(waffleAndCream)
-                
-                embed = discord.Embed(title="Pitchforks Dining Hall Lunch", description="Pitchforks Dining Hall Lunch Menu")
-                
-                embed.set_thumbnail(url='https://i.imgur.com/FvCWGxy.jpg')
-                
-                try:
-                    embed.add_field(name="International Food Station", value=international, inline=False)
-                except:
-                    pass
-                
-                try:
-                    embed.add_field(name='Vegan Station', value=vegan, inline=False)
-                except:
-                    pass
-                
-                try:
-                    embed.add_field(name="Asian Food Station", value=asian, inline=False)
-                except:
-                    pass
-                
-                try:
-                    embed.add_field(name='Limon', value=limon, inline=False)
-                except:
-                    pass
-                
-                try:
-                    embed.add_field(name='Pizza', value=pizza, inline=False)
-                except:
-                    pass
-                
-                try:
-                    embed.add_field(name='Soups', value=soups, inline=True)
-                except:
-                    pass
-                
-                try:
-                    embed.add_field(name='Salad & Deli', value=saladDeli, inline=False)
-                except:
-                    pass
-                
-                embed.set_image(url='https://i.imgur.com/hlzODkP.png')
-        
-        if(requestedMeal == 'Dinner'):
-            
+        else:
             await asyncio.sleep(2)
 
             meal = await page.querySelector('.ChoosenMeal')
             meal = await page.evaluate('(element) => element.textContent', meal)
 
-            if meal != 'Dinner':
+            if meal != 'Lunch':
                 try:
                     swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                     await swapButton.click()
                 except:
                     pass
 
-                dropDown = await page.waitForSelector('.css-1t70p0u-control', timeout=5000)
+                dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
                 await dropDown.click()
 
                 try:
-                    breakfastOption = await page.waitForXPath('//div[text()="Dinner"]', timeout=5000)
+                    breakfastOption = await page.waitForXPath('//div[text()="Lunch"]', timeout=5000)
                     await breakfastOption.click()
                 except:
-                    await ctx.send("Sorry but it does not appear that there is a Breakfast option today at Pitchforks dining...")
+                    await ctx.send("Sorry but it does not appear that there is a Lunch option today at Pitchforks dining...")
 
-                doneButton = await page.waitForSelector('#modal-root > div > div > div > div > div.sc-cCsOjp.gvlGSX > button.sc-bczRLJ.sc-gsnTZi.gObyWR.SlTeX.Done', timeout=5000)
+                doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
 
                 await doneButton.click()
                 await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
-                await asyncio.sleep(2) 
+                await asyncio.sleep(2)
+                
+            await scrape_food('//*[@id="17303"]', 'Salad & Deli')
+            await scrape_food('//*[@id="14584"]', 'International')
+            await scrape_food('//*[@id="17302"]', 'Vegan')
+            await scrape_food('//*[@id="17300"]', 'Pizza')
+            await scrape_food('//*[@id="17299"]', 'Asian')
+            await scrape_food('//*[@id="17301"]', 'Limon')
+            await scrape_food('//*[@id="17305"]', 'Soups')
+            
+            saladDeli = food_dict['Salad & Deli']
+            saladDeli = ', '.join(saladDeli)
+            
+            international = food_dict['International']
+            international = ', '.join(international)
+            
+            vegan = food_dict['Vegan']
+            vegan = ', '.join(vegan)
+            
+            pizza = food_dict['Pizza']
+            pizza = ', '.join(pizza)
+            
+            asian = food_dict['Asian']
+            asian = ', '.join(asian)
+            
+            limon = food_dict['Limon']
+            limon = ', '.join(limon)
+            
+            soups = food_dict['Soups']
+            soups = ', '.join(soups)
+            
+            embed = discord.Embed(title="Pitchforks Dining Hall Lunch", description="Pitchforks Dining Hall Lunch Menu")
+            
+            embed.set_thumbnail(url='https://i.imgur.com/FvCWGxy.jpg')
+            
+            try:
+                embed.add_field(name="International Food Station", value=international, inline=False)
+            except:
+                pass
+            
+            try:
+                embed.add_field(name='Vegan Station', value=vegan, inline=False)
+            except:
+                pass
+            
+            try:
+                embed.add_field(name="Asian Food Station", value=asian, inline=False)
+            except:
+                pass
+            
+            try:
+                embed.add_field(name='Limon', value=limon, inline=False)
+            except:
+                pass
+            
+            try:
+                embed.add_field(name='Pizza', value=pizza, inline=False)
+            except:
+                pass
+            
+            try:
+                embed.add_field(name='Soups', value=soups, inline=True)
+            except:
+                pass
+            
+            try:
+                embed.add_field(name='Salad & Deli', value=saladDeli, inline=False)
+            except:
+                pass
+            
+            embed.set_image(url='https://i.imgur.com/hlzODkP.png')
+        
+    if(requestedMeal == 'Dinner'):
+        
+        await asyncio.sleep(2)
+
+        meal = await page.querySelector('.ChoosenMeal')
+        meal = await page.evaluate('(element) => element.textContent', meal)
+
+        if meal != 'Dinner':
+            try:
+                swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
+                await swapButton.click()
+            except:
+                pass
+
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
+            await dropDown.click()
+
+            try:
+                breakfastOption = await page.waitForXPath('//div[text()="Dinner"]', timeout=5000)
+                await breakfastOption.click()
+            except:
+                await ctx.send("Sorry but it does not appear that there is a Breakfast option today at Pitchforks dining...")
+
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+
+            await doneButton.click()
+            await page.waitForSelector('.ChoosenMeal', timeout=60000)
+
+            await asyncio.sleep(2) 
+            
+        await scrape_food('//*[@id="17303"]', 'Salad & Deli')
+        await scrape_food('//*[@id="14584"]', 'International')
+        await scrape_food('//*[@id="17302"]', 'Vegan')
+        await scrape_food('//*[@id="17300"]', 'Pizza')
+        await scrape_food('//*[@id="17299"]', 'Asian')
+        await scrape_food('//*[@id="17301"]', 'Limon')
+        await scrape_food('//*[@id="17305"]', 'Soups')
+        await scrape_food('//*[@id="45017"]', 'True Balance')
+        
+        saladDeli = food_dict['Salad & Deli']
+        saladDeli = ', '.join(saladDeli)
+        
+        international = food_dict['International']
+        international = ', '.join(international)
+        
+        vegan = food_dict['Vegan']
+        vegan = ', '.join(vegan)
+        
+        pizza = food_dict['Pizza']
+        pizza = ', '.join(pizza)
+        
+        asian = food_dict['Asian']
+        asian = ', '.join(asian)
+        
+        limon = food_dict['Limon']
+        limon = ', '.join(limon)
+        
+        soups = food_dict['Soups']
+        soups = ', '.join(soups)
+        
+        trueBalance = food_dict['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title="Pitchforks Dining Hall Dinner", description="Pitchforks Dining Hall Dinner Menu")
+        
+        embed.set_thumbnail(url='https://i.imgur.com/FvCWGxy.jpg')
+        
+        try:
+            embed.add_field(name="International Food Station", value=international, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Vegan Station', value=vegan, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Asian Food Station", value=asian, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Limon', value=limon, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Pizza', value=pizza, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Soups', value=soups, inline=True)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Salad & Deli', value=saladDeli, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='True Balance', value=trueBalance, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url='https://i.imgur.com/hlzODkP.png')
                 
                 
                 
