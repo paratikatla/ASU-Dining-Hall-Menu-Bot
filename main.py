@@ -33,8 +33,8 @@ day = now.weekday()
 async def on_ready():
     print(f'{bot.user.name} is up and running')
     
-@bot.command(name='tooker')
-async def tooker_menu(ctx, arg1):
+# @bot.command(name='tooker')
+# async def tooker_menu(ctx, arg1):
     
     now = datetime.now()
     hour = now.hour

@@ -616,6 +616,38 @@ async def manzyReq(requestedMeal):
         await scrape_food('//*[@id="9138"]', 'Grill')
         await scrape_food('//*[@id="9140"]', 'Pizza')
         await scrape_food('//*[@id="13991"]', 'Sazon Station')
+    
+    elif(requestedMeal == 'brunch'):
+        
+        await asyncio.sleep(2)
+
+        meal = await page.querySelector('.ChoosenMeal')
+        meal = await page.evaluate('(element) => element.textContent', meal)
+        
+        if meal != 'Brunch':
+            try:
+                swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
+                await swapButton.click()
+            except:
+                pass
+
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
+            await dropDown.click()
+
+            try:
+                breakfastOption = await page.waitForXPath('//div[text()="Brunch"]', timeout=5000)
+                await breakfastOption.click()
+            except:
+                await print("Sorry but it does not appear that there is a Dinner option today at Manzanita dining...")
+
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+
+            await doneButton.click()
+            await page.waitForSelector('.ChoosenMeal', timeout=60000)
+
+            await asyncio.sleep(2)
+        
+        
         
     await browser.close()
     return food_dict 
@@ -1048,483 +1080,675 @@ async def on_ready():
 async def shutdown(ctx):
     exit()     
     
-@bot.command(name='barrett')
-async def barrett(ctx, arg1):
-    
-    now = datetime.now()
-    current_day = now.weekday()
-    
-    if(arg1.lower() == 'breakfast'):
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
-            return
-        
-        food_dict = await barrettReq('breakfast')
-        
-        dailyRoot = food_dict['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = food_dict['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        trueBalance = food_dict['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        embed = discord.Embed(title='Tooker House Breakfast', description= 'Tooker House Breakfast Menu')
-    
-        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
-        
-        try:
-            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
-        except:
-            pass
-
-        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
-        
-        
-    elif(arg1.lower() == 'lunch'):
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Lunch today, try requesting Brunch instead")
-            return
-            
-        food_dict = await barrettReq('lunch')
-        
-        dailyRoot = food_dict['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = food_dict['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        grill = food_dict['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = food_dict['Pizza']
-        pizza = ', '.join(pizza)
-        
-        soup = food_dict['Soup']
-        soup = ', '.join(soup)
-        
-        trueBalance = food_dict['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        shawarma = ['Falafel Pita']
-        shawarma = ', '.join(shawarma)
-        
-        embed = discord.Embed(title='Tooker House Lunch', description= 'Tooker House Lunch Menu')
-    
-        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
-        
-        try:
-            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Grill', value=grill, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Pizza', value=pizza, inline=True)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Soup', value=soup, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Shawarma Station', value=shawarma, inline=True)
-        except:
-            pass
-
-        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
-        
-    elif(arg1.lower() == 'dinner'):
-        
-        food_dict = await barrettReq('dinner')
-        
-        dailyRoot = food_dict['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = food_dict['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        grill = food_dict['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = food_dict['Pizza']
-        pizza = ', '.join(pizza)
-        
-        soup = food_dict['Soup']
-        soup = ', '.join(soup)
-        
-        trueBalance = food_dict['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        shawarma = ['Chicken Shawarma Pita', 'Falafel Pita']
-        shawarma = ', '.join(shawarma)
-        
-        embed = discord.Embed(title='Tooker House Dinner', description= 'Tooker House Dinner Menu')
-    
-        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
-        
-        try:
-            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Grill', value=grill, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Pizza', value=pizza, inline=True)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Soup', value=soup, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Shawarma Station', value=shawarma, inline=True)
-        except:
-            pass
-
-        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
-        
-    elif(arg1.lower() == 'brunch'):
-        if(current_day != 5 or current_day != 6):
-            ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
-            return
-        
-        food_dict = await barrettReq('brunch')
-        
-        dailyRoot = food_dict['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = food_dict['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        grill = food_dict['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = food_dict['Pizza']
-        pizza = ', '.join(pizza)
-        
-        trueBalance = food_dict['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        embed = discord.Embed(title='Tooker House Brunch', description= 'Tooker House Brunch Menu')
-
-        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
-        
-        try:
-            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Grill', value=grill, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Pizza', value=pizza, inline=True)
-        except:
-            pass
-
-        await ctx.send(embed=embed)
-        
-    else:
-        ctx.send("You have requested an invalid meal, please try again")
-
-@bot.command(name='Barrett')
-async def barrett(ctx, arg1):
-    
-    now = datetime.now()
-    current_day = now.weekday()
-    
-    if(arg1.lower() == 'breakfast'):
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
-            return
-        
-        food_dict = await barrettReq('breakfast')
-        
-        dailyRoot = food_dict['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = food_dict['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        trueBalance = food_dict['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        embed = discord.Embed(title='Tooker House Breakfast', description= 'Tooker House Breakfast Menu')
-    
-        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
-        
-        try:
-            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
-        except:
-            pass
-
-        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
-        
-        
-    elif(arg1.lower() == 'lunch'):
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Lunch today, try requesting Brunch instead")
-            return
-            
-        food_dict = await barrettReq('lunch')
-        
-        dailyRoot = food_dict['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = food_dict['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        grill = food_dict['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = food_dict['Pizza']
-        pizza = ', '.join(pizza)
-        
-        soup = food_dict['Soup']
-        soup = ', '.join(soup)
-        
-        trueBalance = food_dict['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        shawarma = ['Falafel Pita']
-        shawarma = ', '.join(shawarma)
-        
-        embed = discord.Embed(title='Tooker House Lunch', description= 'Tooker House Lunch Menu')
-    
-        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
-        
-        try:
-            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Grill', value=grill, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Pizza', value=pizza, inline=True)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Soup', value=soup, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Shawarma Station', value=shawarma, inline=True)
-        except:
-            pass
-
-        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
-        
-    elif(arg1.lower() == 'dinner'):
-        
-        food_dict = await barrettReq('dinner')
-        
-        dailyRoot = food_dict['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = food_dict['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        grill = food_dict['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = food_dict['Pizza']
-        pizza = ', '.join(pizza)
-        
-        soup = food_dict['Soup']
-        soup = ', '.join(soup)
-        
-        trueBalance = food_dict['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        shawarma = ['Chicken Shawarma Pita', 'Falafel Pita']
-        shawarma = ', '.join(shawarma)
-        
-        embed = discord.Embed(title='Tooker House Dinner', description= 'Tooker House Dinner Menu')
-    
-        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
-        
-        try:
-            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Grill', value=grill, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Pizza', value=pizza, inline=True)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Soup', value=soup, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Shawarma Station', value=shawarma, inline=True)
-        except:
-            pass
-
-        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
-        
-    elif(arg1.lower() == 'brunch'):
-        if(current_day != 5 or current_day != 6):
-            ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
-            return
-        
-        food_dict = await barrettReq('brunch')
-        
-        dailyRoot = food_dict['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = food_dict['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        grill = food_dict['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = food_dict['Pizza']
-        pizza = ', '.join(pizza)
-        
-        trueBalance = food_dict['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        embed = discord.Embed(title='Tooker House Brunch', description= 'Tooker House Brunch Menu')
-
-        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
-        
-        try:
-            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Grill', value=grill, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Pizza', value=pizza, inline=True)
-        except:
-            pass
-
-        await ctx.send(embed=embed)
-        
-    else:
-        ctx.send("You have requested an invalid meal, please try again")
-
 @bot.command(name='tooker')
-async def test_menu(ctx):
-    testDict = await barrettReq('lunch')
+async def tooker(ctx, arg1):
+    
+    now = datetime.now()
+    current_day = now.weekday()
+    
+    if(arg1.lower() == 'breakfast'):
+        if(current_day == 5 or current_day == 6):
+            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+            return
+        
+        food_dict = await tookerReq('breakfast')
+        
+        dailyRoot = food_dict['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        homeZone = food_dict['Home Zone']
+        homeZone = ', '.join(homeZone)
+        
+        trueBalance = food_dict['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title='Tooker House Breakfast', description= 'Tooker House Breakfast Menu')
+    
+        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
+        
+        try:
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
+        except:
+            pass
 
-@bot.command(name='test3')
-async def test_menu(ctx):
-    testDict = await barrettReq('dinner')
+        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
+        
+        
+    elif(arg1.lower() == 'lunch'):
+        if(current_day == 5 or current_day == 6):
+            ctx.send("This dining hall is not serving Lunch today, try requesting Brunch instead")
+            return
+            
+        food_dict = await tookerReq('lunch')
+        
+        dailyRoot = food_dict['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        homeZone = food_dict['Home Zone']
+        homeZone = ', '.join(homeZone)
+        
+        grill = food_dict['Grill']
+        grill = ', '.join(grill)
+        
+        pizza = food_dict['Pizza']
+        pizza = ', '.join(pizza)
+        
+        soup = food_dict['Soup']
+        soup = ', '.join(soup)
+        
+        trueBalance = food_dict['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        shawarma = ['Falafel Pita']
+        shawarma = ', '.join(shawarma)
+        
+        embed = discord.Embed(title='Tooker House Lunch', description= 'Tooker House Lunch Menu')
+    
+        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
+        
+        try:
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Grill', value=grill, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Pizza', value=pizza, inline=True)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Soup', value=soup, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Shawarma Station', value=shawarma, inline=True)
+        except:
+            pass
+
+        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
+        
+    elif(arg1.lower() == 'dinner'):
+        
+        food_dict = await tookerReq('dinner')
+        
+        dailyRoot = food_dict['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        homeZone = food_dict['Home Zone']
+        homeZone = ', '.join(homeZone)
+        
+        grill = food_dict['Grill']
+        grill = ', '.join(grill)
+        
+        pizza = food_dict['Pizza']
+        pizza = ', '.join(pizza)
+        
+        soup = food_dict['Soup']
+        soup = ', '.join(soup)
+        
+        trueBalance = food_dict['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        shawarma = ['Chicken Shawarma Pita', 'Falafel Pita']
+        shawarma = ', '.join(shawarma)
+        
+        embed = discord.Embed(title='Tooker House Dinner', description= 'Tooker House Dinner Menu')
+    
+        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
+        
+        try:
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Grill', value=grill, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Pizza', value=pizza, inline=True)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Soup', value=soup, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Shawarma Station', value=shawarma, inline=True)
+        except:
+            pass
+
+        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
+        
+    elif(arg1.lower() == 'brunch'):
+        if(current_day != 5 and current_day != 6):
+            ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
+            return
+        
+        food_dict = await tookerReq('brunch')
+        
+        dailyRoot = food_dict['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        homeZone = food_dict['Home Zone']
+        homeZone = ', '.join(homeZone)
+        
+        grill = food_dict['Grill']
+        grill = ', '.join(grill)
+        
+        pizza = food_dict['Pizza']
+        pizza = ', '.join(pizza)
+        
+        trueBalance = food_dict['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title='Tooker House Brunch', description= 'Tooker House Brunch Menu')
+
+        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
+        
+        try:
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Grill', value=grill, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Pizza', value=pizza, inline=True)
+        except:
+            pass
+        
+    else:
+        ctx.send("You have requested an invalid meal, please try again")
+    
+    await ctx.send(embed=embed)
+
+@bot.command(name='Tooker')
+async def Tooker(ctx, arg1):
+    
+    now = datetime.now()
+    current_day = now.weekday()
+    
+    if(arg1.lower() == 'breakfast'):
+        if(current_day == 5 or current_day == 6):
+            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+            return
+        
+        food_dict = await tookerReq('breakfast')
+        
+        dailyRoot = food_dict['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        homeZone = food_dict['Home Zone']
+        homeZone = ', '.join(homeZone)
+        
+        trueBalance = food_dict['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title='Tooker House Breakfast', description= 'Tooker House Breakfast Menu')
+    
+        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
+        
+        try:
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
+        except:
+            pass
+
+        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
+        
+        
+    elif(arg1.lower() == 'lunch'):
+        if(current_day == 5 or current_day == 6):
+            ctx.send("This dining hall is not serving Lunch today, try requesting Brunch instead")
+            return
+            
+        food_dict = await tookerReq('lunch')
+        
+        dailyRoot = food_dict['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        homeZone = food_dict['Home Zone']
+        homeZone = ', '.join(homeZone)
+        
+        grill = food_dict['Grill']
+        grill = ', '.join(grill)
+        
+        pizza = food_dict['Pizza']
+        pizza = ', '.join(pizza)
+        
+        soup = food_dict['Soup']
+        soup = ', '.join(soup)
+        
+        trueBalance = food_dict['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        shawarma = ['Falafel Pita']
+        shawarma = ', '.join(shawarma)
+        
+        embed = discord.Embed(title='Tooker House Lunch', description= 'Tooker House Lunch Menu')
+    
+        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
+        
+        try:
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Grill', value=grill, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Pizza', value=pizza, inline=True)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Soup', value=soup, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Shawarma Station', value=shawarma, inline=True)
+        except:
+            pass
+
+        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
+        
+    elif(arg1.lower() == 'dinner'):
+        
+        food_dict = await tookerReq('dinner')
+        
+        dailyRoot = food_dict['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        homeZone = food_dict['Home Zone']
+        homeZone = ', '.join(homeZone)
+        
+        grill = food_dict['Grill']
+        grill = ', '.join(grill)
+        
+        pizza = food_dict['Pizza']
+        pizza = ', '.join(pizza)
+        
+        soup = food_dict['Soup']
+        soup = ', '.join(soup)
+        
+        trueBalance = food_dict['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        shawarma = ['Chicken Shawarma Pita', 'Falafel Pita']
+        shawarma = ', '.join(shawarma)
+        
+        embed = discord.Embed(title='Tooker House Dinner', description= 'Tooker House Dinner Menu')
+    
+        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
+        
+        try:
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Grill', value=grill, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Pizza', value=pizza, inline=True)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Soup', value=soup, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Shawarma Station', value=shawarma, inline=True)
+        except:
+            pass
+
+        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
+        
+    elif(arg1.lower() == 'brunch'):
+        if(current_day != 5 and current_day != 6):
+            ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
+            return
+        
+        food_dict = await tookerReq('brunch')
+        
+        dailyRoot = food_dict['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        homeZone = food_dict['Home Zone']
+        homeZone = ', '.join(homeZone)
+        
+        grill = food_dict['Grill']
+        grill = ', '.join(grill)
+        
+        pizza = food_dict['Pizza']
+        pizza = ', '.join(pizza)
+        
+        trueBalance = food_dict['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title='Tooker House Brunch', description= 'Tooker House Brunch Menu')
+
+        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
+        
+        try:
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Grill', value=grill, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Pizza', value=pizza, inline=True)
+        except:
+            pass
+        
+    else:
+        ctx.send("You have requested an invalid meal, please try again")
+    
+    await ctx.send(embed=embed)
+
+# @bot.command(name='barrett')
+# async def barrett(ctx, arg1):
+    
+#     now = datetime.now()
+#     current_day = now.weekday()
+    
+#     if(arg1.lower() == 'breakfast'):
+#         if(current_day == 5 or current_day == 6):
+#             ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+#             return
+
+#         food_dict = barrettReq('breakfast')
+        
+#     elif(arg1.lower() == 'lunch'):
+#         if(current_day == 5 or current_day == 6):
+#             ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+#             return
+
+#         food_dict = barrettReq('lunch')
+        
+#     elif(arg1.lower() == 'dinner'):
+        
+#         food_dict = barrettReq('dinner')
+    
+#     elif(arg1.lower() == 'brunch'):
+#         if(current_day != 5 and current_day != 6):
+#             ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
+#             return
+
+#         food_dict = barrettReq('brunch')
+        
+#     else:
+#         ctx.send("You have requested an invalid meal, please try again")
+
+
+@bot.command(name='manzy')
+async def test_menu(ctx, arg1):
+    
+    now = datetime.now()
+    current_day = now.weekday()
+    
+    if(arg1.lower() == 'breakfast'):
+        
+        if(current_day == 5 or current_day == 6):
+            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+            return
+        
+        food_dict = manzyReq('breakfast')
+        
+        Action = food_dict['Action']
+        Action = ', '.join(Action)
+        
+        homeZone = food_dict['Home Zone']
+        homeZone = ', '.join(homeZone)
+        
+        saladBar = food_dict['Salad Bar']
+        saladBar = ', '.join(saladBar)
+        
+        grill = food_dict['Grill']
+        grill = ', '.join(grill)
+        
+        embed = discord.Embed(title='Manzanita Dining Hall Breakfast', description= 'Manzanita Dining Hall Breakfast Menu')
+
+        embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
+        
+        try:
+            embed.add_field(name="Action:", value=Action, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Salad Bar:', value=saladBar, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Grill:', value=grill, inline=True)
+        except:
+            pass
+
+        embed.set_image(url="https://i.imgur.com/GSx3eR2.png")
+    
+    elif(arg1.lower() == 'lunch'):
+        if(current_day == 5 or current_day == 6):
+            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+            return
+        
+        food_dict = manzyReq('lunch')
+        
+        Action = food_dict['Action']
+        Action = ', '.join(Action)
+        
+        homeZone = food_dict['Home Zone']
+        homeZone = ', '.join(homeZone)
+        
+        grill = food_dict['Grill']
+        grill = ', '.join(grill)
+        
+        pizza = food_dict['Pizza']
+        pizza = ', '.join(pizza)
+        
+        sazonStation = food_dict['Sazon Station']
+        sazonStation = ', '.join(sazonStation)
+        
+        embed = discord.Embed(title='Manzanita Dining Hall Lunch', description= 'Manzanita Dining Hall Lunch Menu')
+    
+        embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
+        
+        try:
+            embed.add_field(name="Action:", value=Action, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Sazon Station:', value=sazonStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Grill:', value=grill, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Pizza', value=pizza, inline=True)
+        except:
+            pass
+
+        embed.set_image(url="https://i.imgur.com/GSx3eR2.png")
+    
+    elif(arg1.lower() == 'dinner'):
+        
+        food_dict = manzyReq('dinner')
+        
+        Action = food_dict['Action']
+        Action = ', '.join(Action)
+        
+        homeZone = food_dict['Home Zone']
+        homeZone = ', '.join(homeZone)
+        
+        grill = food_dict['Grill']
+        grill = ', '.join(grill)
+        
+        pizza = food_dict['Pizza']
+        pizza = ', '.join(pizza)
+        
+        sazonStation = food_dict['Sazon Station']
+        sazonStation = ', '.join(sazonStation)
+        
+        embed = discord.Embed(title='Manzanita Dining Hall Dinner', description= 'Manzanita Dining Hall Dinner Menu')
+    
+        embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
+        
+        try:
+            embed.add_field(name="Action:", value=Action, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Sazon Station:', value=sazonStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Grill:', value=grill, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Pizza', value=pizza, inline=True)
+        except:
+            pass
+
+        embed.set_image(url="https://i.imgur.com/GSx3eR2.png")
+    
+    elif(arg1.lower() == 'brunch'):
+        if(current_day != 5 and current_day != 6):
+            ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
+            return
+        
+    else:
+        ctx.send("You have requested an invalid meal, please try again")
+    
+    await ctx.send(embed=embed)
 
 bot.run(TOKEN)
 
