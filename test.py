@@ -24,7 +24,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 intents = discord.Intents.all()
 
-bot = commands.Bot(command_prefix="?", intents=intents)
+bot = commands.Bot(command_prefix="?", intents=intents, case_insensitive=True)
 
 
 
@@ -46,6 +46,7 @@ manzyBrunch = {}
 pitchforksBreakfast = {}
 pitchforksLunch = {}
 pitchforksDinner = {}
+pitchforksBrunch = {}
 
 hassyBreakfast = {}
 hassyLunch = {}
@@ -448,12 +449,12 @@ async def tookerReq(requestedMeal):
             await asyncio.sleep(2)
 
 
-            await scrape_food('//*[@id="22794"]', 'Daily Root')
-            await scrape_food('//*[@id="22792"]', 'Home Zone')
-            await scrape_food('//*[@id="22793"]', 'Grill')
-            await scrape_food('//*[@id="22796"]', 'Pizza')
-            await scrape_food('//*[@id="30185"]', 'True Balance')
-            print("Brunch: ", food_dict)
+        await scrape_food('//*[@id="22794"]', 'Daily Root')
+        await scrape_food('//*[@id="22792"]', 'Home Zone')
+        await scrape_food('//*[@id="22793"]', 'Grill')
+        await scrape_food('//*[@id="22796"]', 'Pizza')
+        await scrape_food('//*[@id="30185"]', 'True Balance')
+        print("Brunch: ", food_dict)
 
     await browser.close()
     return food_dict
@@ -535,10 +536,14 @@ async def manzyReq(requestedMeal):
 
                 await asyncio.sleep(2)
                 
-            await scrape_food('//*[@id="9135"]', 'Action')
+            await scrape_food('//*[@id="9135"]', 'Daily Root')
+            await scrape_food('//*[@id="13988"]', 'Wok Station')
             await scrape_food('//*[@id="9139"]', 'Home Zone')
             await scrape_food('//*[@id="9141"]', 'Salad Bar')
             await scrape_food('//*[@id="9138"]', 'Grill')
+            await scrape_food('//*[@id="9140"]', 'Pizza')
+            await scrape_food('//*[@id="14484"]', 'Soups')
+            await scrape_food('//*[@id="45028"]', 'True Balance')
                 
     elif(requestedMeal == 'lunch'):
         
@@ -574,11 +579,19 @@ async def manzyReq(requestedMeal):
             print('done button clicked')
             await asyncio.sleep(2)
                 
-        await scrape_food('//*[@id="9135"]', 'Action')
+        await scrape_food('//*[@id="9135"]', 'Daily Root')
+        await scrape_food('//*[@id="13988"]', 'Wok Station')
         await scrape_food('//*[@id="9139"]', 'Home Zone')
+        await scrape_food('//*[@id="9137"]', 'Deli/Sweets')
+        await scrape_food('//*[@id="9141"]', 'Salad Bar')
+        await scrape_food('//*[@id="9136"]', 'Waffle Station')
         await scrape_food('//*[@id="9138"]', 'Grill')
         await scrape_food('//*[@id="9140"]', 'Pizza')
         await scrape_food('//*[@id="13991"]', 'Sazon Station')
+        await scrape_food('//*[@id="14484"]', 'Soups')
+        await scrape_food('//*[@id="45028"]', 'True Balance')
+        await scrape_food('//*[@id="46596"]', 'Weekly Bar Rotation')
+        
         print("Lunch: ", food_dict)
         
     elif(requestedMeal == 'dinner'):
@@ -610,12 +623,6 @@ async def manzyReq(requestedMeal):
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
             await asyncio.sleep(2)
-                
-        await scrape_food('//*[@id="9135"]', 'Action')
-        await scrape_food('//*[@id="9139"]', 'Home Zone')
-        await scrape_food('//*[@id="9138"]', 'Grill')
-        await scrape_food('//*[@id="9140"]', 'Pizza')
-        await scrape_food('//*[@id="13991"]', 'Sazon Station')
     
     elif(requestedMeal == 'brunch'):
         
@@ -646,6 +653,17 @@ async def manzyReq(requestedMeal):
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
             await asyncio.sleep(2)
+        
+        
+        await scrape_food('//*[@id="9135"]', 'Daily Root')
+        await scrape_food('//*[@id="13988"]', 'Wok Station')
+        await scrape_food('//*[@id="9139"]', 'Home Zone')
+        await scrape_food('//*[@id="9141"]', 'Salad Bar')
+        await scrape_food('//*[@id="9136"]', 'Waffle Station')
+        await scrape_food('//*[@id="9138"]', 'Grill')
+        await scrape_food('//*[@id="9140"]', 'Pizza')
+        await scrape_food('//*[@id="13991"]', 'Sazon Station')
+        await scrape_food('//*[@id="45028"]', 'True Balance')
         
         
         
@@ -726,10 +744,11 @@ async def pitchforksReq(requestedMeal):
         await scrape_food('//*[@id="14584"]', 'International')
         await scrape_food('//*[@id="17302"]', 'Vegan')
         await scrape_food('//*[@id="17305"]', 'Soups')
-            
+        await scrape_food('//*[@id="26390"]', 'Waffle Station & Ice Cream')
+        await scrape_food('//*[@id="45017"]', 'True Balance')
             
         
-    if(requestedMeal == 'lunch'):
+    elif(requestedMeal == 'lunch'):
 
         await asyncio.sleep(2)
 
@@ -766,9 +785,10 @@ async def pitchforksReq(requestedMeal):
         await scrape_food('//*[@id="17299"]', 'Asian')
         await scrape_food('//*[@id="17301"]', 'Limon')
         await scrape_food('//*[@id="17305"]', 'Soups')
+        await scrape_food('//*[@id="45017"]', 'True Balance')
             
             
-    if(requestedMeal == 'Dinner'):
+    elif(requestedMeal == 'dinner'):
         
         await asyncio.sleep(2)
 
@@ -804,6 +824,41 @@ async def pitchforksReq(requestedMeal):
         await scrape_food('//*[@id="17300"]', 'Pizza')
         await scrape_food('//*[@id="17299"]', 'Asian')
         await scrape_food('//*[@id="17301"]', 'Limon')
+        await scrape_food('//*[@id="17305"]', 'Soups')
+        await scrape_food('//*[@id="45017"]', 'True Balance')
+    
+    elif(requestedMeal == 'brunch'):
+        
+        await asyncio.sleep(2)
+
+        meal = await page.querySelector('.ChoosenMeal')
+        meal = await page.evaluate('(element) => element.textContent', meal)
+
+        if meal != 'Brunch':
+            try:
+                swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
+                await swapButton.click()
+            except:
+                pass
+
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
+            await dropDown.click()
+
+            try:
+                breakfastOption = await page.waitForXPath('//div[text()="Dinner"]', timeout=5000)
+                await breakfastOption.click()
+            except:
+                await print("Sorry but it does not appear that there is a Breakfast option today at Pitchforks dining...")
+
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+
+            await doneButton.click()
+            await page.waitForSelector('.ChoosenMeal', timeout=60000)
+
+            await asyncio.sleep(2) 
+        
+        await scrape_food('//*[@id="14584"]', 'International')
+        await scrape_food('//*[@id="17302"]', 'Vegan')
         await scrape_food('//*[@id="17305"]', 'Soups')
         await scrape_food('//*[@id="45017"]', 'True Balance')
     
@@ -925,6 +980,7 @@ async def hassyReq(requestedMeal):
         await scrape_food('//*[@id="9113"]', 'Salad Bar')
         await scrape_food('//*[@id="42071"]', 'Deli Station')
         await scrape_food('//*[@id="42068"]', 'Home Station')
+        await scrape_food('//*[@id="42075"]', 'Kosher Bistro')
         await scrape_food('//*[@id="42072"]', 'Pizza Oven')
         await scrape_food('//*[@id="42074"]', 'Smokehouse & Grill')
         await scrape_food('//*[@id="42070"]', 'True Balance')
@@ -964,6 +1020,7 @@ async def hassyReq(requestedMeal):
         await scrape_food('//*[@id="9113"]', 'Salad Bar')
         await scrape_food('//*[@id="42071"]', 'Deli Station')
         await scrape_food('//*[@id="42068"]', 'Home Station')
+        await scrape_food('//*[@id="42075"]', 'Kosher Bistro')
         await scrape_food('//*[@id="42072"]', 'Pizza Oven')
         await scrape_food('//*[@id="42074"]', 'Smokehouse & Grill')
         await scrape_food('//*[@id="42070"]', 'True Balance')
@@ -1038,6 +1095,8 @@ async def checkTime():
         
         barrettBrunch = await barrettReq('brunch')
         
+        pitchforksBrunch = await pitchforksReq('brunch')
+        
     else:
         print("Weekday Scraping")
         
@@ -1091,15 +1150,13 @@ async def tooker(ctx, arg1):
             ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
             return
         
-        food_dict = await tookerReq('breakfast')
-        
-        dailyRoot = food_dict['Daily Root']
+        dailyRoot = tookerBreakfast['Daily Root']
         dailyRoot = ', '.join(dailyRoot)
         
-        homeZone = food_dict['Home Zone']
+        homeZone = tookerBreakfast['Home Zone']
         homeZone = ', '.join(homeZone)
         
-        trueBalance = food_dict['True Balance']
+        trueBalance = tookerBreakfast['True Balance']
         trueBalance = ', '.join(trueBalance)
         
         embed = discord.Embed(title='Tooker House Breakfast', description= 'Tooker House Breakfast Menu')
@@ -1128,25 +1185,23 @@ async def tooker(ctx, arg1):
         if(current_day == 5 or current_day == 6):
             ctx.send("This dining hall is not serving Lunch today, try requesting Brunch instead")
             return
-            
-        food_dict = await tookerReq('lunch')
         
-        dailyRoot = food_dict['Daily Root']
+        dailyRoot = tookerLunch['Daily Root']
         dailyRoot = ', '.join(dailyRoot)
         
-        homeZone = food_dict['Home Zone']
+        homeZone = tookerLunch['Home Zone']
         homeZone = ', '.join(homeZone)
         
-        grill = food_dict['Grill']
+        grill = tookerLunch['Grill']
         grill = ', '.join(grill)
         
-        pizza = food_dict['Pizza']
+        pizza = tookerLunch['Pizza']
         pizza = ', '.join(pizza)
         
-        soup = food_dict['Soup']
+        soup = tookerLunch['Soup']
         soup = ', '.join(soup)
         
-        trueBalance = food_dict['True Balance']
+        trueBalance = tookerLunch['True Balance']
         trueBalance = ', '.join(trueBalance)
         
         shawarma = ['Falafel Pita']
@@ -1195,24 +1250,22 @@ async def tooker(ctx, arg1):
         
     elif(arg1.lower() == 'dinner'):
         
-        food_dict = await tookerReq('dinner')
-        
-        dailyRoot = food_dict['Daily Root']
+        dailyRoot = tookerDinner['Daily Root']
         dailyRoot = ', '.join(dailyRoot)
         
-        homeZone = food_dict['Home Zone']
+        homeZone = tookerDinner['Home Zone']
         homeZone = ', '.join(homeZone)
         
-        grill = food_dict['Grill']
+        grill = tookerDinner['Grill']
         grill = ', '.join(grill)
         
-        pizza = food_dict['Pizza']
+        pizza = tookerDinner['Pizza']
         pizza = ', '.join(pizza)
         
-        soup = food_dict['Soup']
+        soup = tookerDinner['Soup']
         soup = ', '.join(soup)
         
-        trueBalance = food_dict['True Balance']
+        trueBalance = tookerDinner['True Balance']
         trueBalance = ', '.join(trueBalance)
         
         shawarma = ['Chicken Shawarma Pita', 'Falafel Pita']
@@ -1264,21 +1317,19 @@ async def tooker(ctx, arg1):
             ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
             return
         
-        food_dict = await tookerReq('brunch')
-        
-        dailyRoot = food_dict['Daily Root']
+        dailyRoot = tookerBrunch['Daily Root']
         dailyRoot = ', '.join(dailyRoot)
         
-        homeZone = food_dict['Home Zone']
+        homeZone = tookerBrunch['Home Zone']
         homeZone = ', '.join(homeZone)
         
-        grill = food_dict['Grill']
+        grill = tookerBrunch['Grill']
         grill = ', '.join(grill)
         
-        pizza = food_dict['Pizza']
+        pizza = tookerBrunch['Pizza']
         pizza = ', '.join(pizza)
         
-        trueBalance = food_dict['True Balance']
+        trueBalance = tookerBrunch['True Balance']
         trueBalance = ', '.join(trueBalance)
         
         embed = discord.Embed(title='Tooker House Brunch', description= 'Tooker House Brunch Menu')
@@ -1315,278 +1366,8 @@ async def tooker(ctx, arg1):
     
     await ctx.send(embed=embed)
 
-@bot.command(name='Tooker')
-async def Tooker(ctx, arg1):
-    
-    now = datetime.now()
-    current_day = now.weekday()
-    
-    if(arg1.lower() == 'breakfast'):
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
-            return
-        
-        food_dict = await tookerReq('breakfast')
-        
-        dailyRoot = food_dict['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = food_dict['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        trueBalance = food_dict['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        embed = discord.Embed(title='Tooker House Breakfast', description= 'Tooker House Breakfast Menu')
-    
-        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
-        
-        try:
-            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
-        except:
-            pass
-
-        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
-        
-        
-    elif(arg1.lower() == 'lunch'):
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Lunch today, try requesting Brunch instead")
-            return
-            
-        food_dict = await tookerReq('lunch')
-        
-        dailyRoot = food_dict['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = food_dict['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        grill = food_dict['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = food_dict['Pizza']
-        pizza = ', '.join(pizza)
-        
-        soup = food_dict['Soup']
-        soup = ', '.join(soup)
-        
-        trueBalance = food_dict['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        shawarma = ['Falafel Pita']
-        shawarma = ', '.join(shawarma)
-        
-        embed = discord.Embed(title='Tooker House Lunch', description= 'Tooker House Lunch Menu')
-    
-        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
-        
-        try:
-            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Grill', value=grill, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Pizza', value=pizza, inline=True)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Soup', value=soup, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Shawarma Station', value=shawarma, inline=True)
-        except:
-            pass
-
-        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
-        
-    elif(arg1.lower() == 'dinner'):
-        
-        food_dict = await tookerReq('dinner')
-        
-        dailyRoot = food_dict['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = food_dict['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        grill = food_dict['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = food_dict['Pizza']
-        pizza = ', '.join(pizza)
-        
-        soup = food_dict['Soup']
-        soup = ', '.join(soup)
-        
-        trueBalance = food_dict['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        shawarma = ['Chicken Shawarma Pita', 'Falafel Pita']
-        shawarma = ', '.join(shawarma)
-        
-        embed = discord.Embed(title='Tooker House Dinner', description= 'Tooker House Dinner Menu')
-    
-        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
-        
-        try:
-            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Grill', value=grill, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Pizza', value=pizza, inline=True)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Soup', value=soup, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Shawarma Station', value=shawarma, inline=True)
-        except:
-            pass
-
-        embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
-        
-    elif(arg1.lower() == 'brunch'):
-        if(current_day != 5 and current_day != 6):
-            ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
-            return
-        
-        food_dict = await tookerReq('brunch')
-        
-        dailyRoot = food_dict['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = food_dict['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        grill = food_dict['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = food_dict['Pizza']
-        pizza = ', '.join(pizza)
-        
-        trueBalance = food_dict['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        embed = discord.Embed(title='Tooker House Brunch', description= 'Tooker House Brunch Menu')
-
-        embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
-        
-        try:
-            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Grill', value=grill, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Pizza', value=pizza, inline=True)
-        except:
-            pass
-        
-    else:
-        ctx.send("You have requested an invalid meal, please try again")
-    
-    await ctx.send(embed=embed)
-
-# @bot.command(name='barrett')
-# async def barrett(ctx, arg1):
-    
-#     now = datetime.now()
-#     current_day = now.weekday()
-    
-#     if(arg1.lower() == 'breakfast'):
-#         if(current_day == 5 or current_day == 6):
-#             ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
-#             return
-
-#         food_dict = barrettReq('breakfast')
-        
-#     elif(arg1.lower() == 'lunch'):
-#         if(current_day == 5 or current_day == 6):
-#             ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
-#             return
-
-#         food_dict = barrettReq('lunch')
-        
-#     elif(arg1.lower() == 'dinner'):
-        
-#         food_dict = barrettReq('dinner')
-    
-#     elif(arg1.lower() == 'brunch'):
-#         if(current_day != 5 and current_day != 6):
-#             ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
-#             return
-
-#         food_dict = barrettReq('brunch')
-        
-#     else:
-#         ctx.send("You have requested an invalid meal, please try again")
-
-
-@bot.command(name='manzy')
-async def test_menu(ctx, arg1):
+@bot.command(name='manzanita', aliases=['manzy'])
+async def manzy(ctx, arg1):
     
     now = datetime.now()
     current_day = now.weekday()
@@ -1597,74 +1378,42 @@ async def test_menu(ctx, arg1):
             ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
             return
         
-        food_dict = manzyReq('breakfast')
         
-        Action = food_dict['Action']
-        Action = ', '.join(Action)
+        dailyRoot = manzyBreakfast['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
         
-        homeZone = food_dict['Home Zone']
+        wokStation = manzyBreakfast['Wok Station']
+        wokStation = ', '.join(wokStation)
+        
+        homeZone = manzyBreakfast['Home Zone']
         homeZone = ', '.join(homeZone)
         
-        saladBar = food_dict['Salad Bar']
+        saladBar = manzyBreakfast['Salad Bar']
         saladBar = ', '.join(saladBar)
         
-        grill = food_dict['Grill']
+        grill = manzyBreakfast['Grill']
         grill = ', '.join(grill)
         
-        embed = discord.Embed(title='Manzanita Dining Hall Breakfast', description= 'Manzanita Dining Hall Breakfast Menu')
-
-        embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
-        
-        try:
-            embed.add_field(name="Action:", value=Action, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Salad Bar:', value=saladBar, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Grill:', value=grill, inline=True)
-        except:
-            pass
-
-        embed.set_image(url="https://i.imgur.com/GSx3eR2.png")
-    
-    elif(arg1.lower() == 'lunch'):
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
-            return
-        
-        food_dict = manzyReq('lunch')
-        
-        Action = food_dict['Action']
-        Action = ', '.join(Action)
-        
-        homeZone = food_dict['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        grill = food_dict['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = food_dict['Pizza']
+        pizza = manzyBreakfast['Pizza']
         pizza = ', '.join(pizza)
         
-        sazonStation = food_dict['Sazon Station']
-        sazonStation = ', '.join(sazonStation)
+        soup = manzyBreakfast['Soups']
+        soup = ', '.join(soup)
         
-        embed = discord.Embed(title='Manzanita Dining Hall Lunch', description= 'Manzanita Dining Hall Lunch Menu')
-    
+        trueBalance = manzyBreakfast['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title='Manzanita Dining Hall Breakfast', description= 'Manzanita Dining Hall Breakfast Menu')
+        
         embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
         
         try:
-            embed.add_field(name="Action:", value=Action, inline=False)
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Wok Station:", value=wokStation, inline=False)
         except:
             pass
         
@@ -1674,12 +1423,7 @@ async def test_menu(ctx, arg1):
             pass
         
         try:
-            embed.add_field(name='Sazon Station:', value=sazonStation, inline=False)
-        except:
-            pass
-        
-        try:
-            embed.add_field(name='Grill:', value=grill, inline=False)
+            embed.add_field(name='Grill', value=grill, inline=False)
         except:
             pass
         
@@ -1687,34 +1431,180 @@ async def test_menu(ctx, arg1):
             embed.add_field(name='Pizza', value=pizza, inline=True)
         except:
             pass
-
+        
+        try:
+            embed.add_field(name='Soups', value=soup, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
+        except:
+            pass
+        
         embed.set_image(url="https://i.imgur.com/GSx3eR2.png")
     
-    elif(arg1.lower() == 'dinner'):
+    elif(arg1.lower() == 'lunch'):
         
-        food_dict = manzyReq('dinner')
+        if(current_day == 5 or current_day == 6):
+            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+            return
         
-        Action = food_dict['Action']
-        Action = ', '.join(Action)
         
-        homeZone = food_dict['Home Zone']
+        dailyRoot = manzyLunch['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        wokStation = manzyLunch['Wok Station']
+        wokStation = ', '.join(wokStation)
+        
+        homeZone = manzyLunch['Home Zone']
         homeZone = ', '.join(homeZone)
         
-        grill = food_dict['Grill']
+        deliSweets = manzyLunch['Deli/Sweets']
+        deliSweets = ', '.join(deliSweets)
+        
+        saladBar = manzyDinner['Salad Bar']
+        saladBar = ', '.join(saladBar)
+        
+        waffleStation = manzyLunch['Waffle Station']
+        waffleStation = ', '.join(waffleStation)
+        
+        grill = manzyLunch['Grill']
         grill = ', '.join(grill)
         
-        pizza = food_dict['Pizza']
+        pizza = manzyLunch['Pizza']
         pizza = ', '.join(pizza)
         
-        sazonStation = food_dict['Sazon Station']
+        sazonStation = manzyLunch['Sazon Station']
         sazonStation = ', '.join(sazonStation)
+        
+        soup = manzyLunch['Soups']
+        soup = ', '.join(soup)
+        
+        trueBalance = manzyLunch['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        weeklyBarRotation = manzyLunch['Weekly Bar Rotation']
+        weeklyBarRotation = ', '.join(weeklyBarRotation)
+        
+        embed = discord.Embed(title='Manzanita Dining Hall Lunch', description= 'Manzanita Dining Hall Lunch Menu')
+        
+        embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
+        
+        try:
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Wok Station:", value=wokStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Deli/Sweets', value=deliSweets, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Salad Bar', value=saladBar, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Waffle Station', value=waffleStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Grill', value=grill, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Pizza', value=pizza, inline=True)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Sazon Station', value=sazonStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Soups', value=soup, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Weekly Bar Rotation', value=weeklyBarRotation, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url="https://i.imgur.com/GSx3eR2.png")
+        
+        
+    elif(arg1.lower() == 'dinner'):
+        
+        
+        dailyRoot = manzyDinner['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        wokStation = manzyDinner['Wok Station']
+        wokStation = ', '.join(wokStation)
+        
+        homeZone = manzyDinner['Home Zone']
+        homeZone = ', '.join(homeZone)
+        
+        deliSweets = manzyDinner['Deli/Sweets']
+        deliSweets = ', '.join(deliSweets)
+        
+        saladBar = manzyDinner['Salad Bar']
+        saladBar = ', '.join(saladBar)
+        
+        waffleStation = manzyDinner['Waffle Station']
+        waffleStation = ', '.join(waffleStation)
+        
+        grill = manzyDinner['Grill']
+        grill = ', '.join(grill)
+        
+        pizza = manzyDinner['Pizza']
+        pizza = ', '.join(pizza)
+        
+        sazonStation = manzyDinner['Sazon Station']
+        sazonStation = ', '.join(sazonStation)
+        
+        soup = manzyDinner['Soups']
+        soup = ', '.join(soup)
+        
+        trueBalance = manzyDinner['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        weeklyBarRotation = manzyDinner['Weekly Bar Rotation']
+        weeklyBarRotation = ', '.join(weeklyBarRotation)
+        
         
         embed = discord.Embed(title='Manzanita Dining Hall Dinner', description= 'Manzanita Dining Hall Dinner Menu')
     
         embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
         
         try:
-            embed.add_field(name="Action:", value=Action, inline=False)
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Wok Station:", value=wokStation, inline=False)
         except:
             pass
         
@@ -1724,12 +1614,22 @@ async def test_menu(ctx, arg1):
             pass
         
         try:
-            embed.add_field(name='Sazon Station:', value=sazonStation, inline=False)
+            embed.add_field(name='Deli/Sweets', value=deliSweets, inline=False)
         except:
             pass
         
         try:
-            embed.add_field(name='Grill:', value=grill, inline=False)
+            embed.add_field(name='Salad Bar', value=saladBar, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Waffle Station', value=waffleStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Grill', value=grill, inline=False)
         except:
             pass
         
@@ -1737,6 +1637,27 @@ async def test_menu(ctx, arg1):
             embed.add_field(name='Pizza', value=pizza, inline=True)
         except:
             pass
+        
+        try:
+            embed.add_field(name='Sazon Station', value=sazonStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Soups', value=soup, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Weekly Bar Rotation', value=weeklyBarRotation, inline=False)
+        except:
+            pass
+        
 
         embed.set_image(url="https://i.imgur.com/GSx3eR2.png")
     
@@ -1745,10 +1666,92 @@ async def test_menu(ctx, arg1):
             ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
             return
         
+        dailyRoot = manzyBrunch['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        wokStation = manzyBrunch['Wok Station']
+        wokStation = ', '.join(wokStation)
+        
+        homeZone = manzyBrunch['Home Zone']
+        homeZone = ', '.join(homeZone)
+        
+        saladBar = manzyBrunch['Salad Bar']
+        saladBar = ', '.join(saladBar)
+        
+        waffleStation = manzyBrunch['Waffle Station']
+        waffleStation = ', '.join(waffleStation)
+        
+        grill = manzyBrunch['Grill']
+        grill = ', '.join(grill)
+        
+        pizza = manzyBrunch['Pizza']
+        pizza = ', '.join(pizza)
+        
+        sazonStation = manzyBrunch['Sazon Station']
+        sazonStation = ', '.join(sazonStation)
+        
+        trueBalance = manzyBrunch['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title='Manzanita Dining Hall Brunch', description= 'Manzanita Dining Hall Brunch Menu')
+    
+        embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
+        
+        try:
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Wok Station:", value=wokStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Zone:", value=homeZone, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Salad Bar', value=saladBar, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Waffle Station', value=waffleStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Grill', value=grill, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Pizza', value=pizza, inline=True)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='Sazon Station', value=sazonStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url="https://i.imgur.com/GSx3eR2.png")
+        
     else:
         ctx.send("You have requested an invalid meal, please try again")
     
     await ctx.send(embed=embed)
+
+
+
+
 
 bot.run(TOKEN)
 
