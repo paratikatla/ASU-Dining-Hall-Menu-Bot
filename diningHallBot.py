@@ -1750,7 +1750,805 @@ async def manzy(ctx, arg1):
     await ctx.send(embed=embed)
 
 
+@bot.command(name='hassayampa', alias=['hassy'])
+async def hassy(ctx, arg1):
+    
+    now = datetime.now()
+    current_day = now.weekday()
+    
+    if(arg1.lower() == 'breakfast'):
+        
+        if(current_day == 5 or current_day == 6):
+            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+            return
+        
+        dailyRoot = hassyBreakfast['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        saladBar = hassyBreakfast['Salad Bar']
+        saladBar = ', '.join(saladBar)
+        
+        homeStation = hassyBreakfast['Home Station']
+        homeStation = ', '.join(homeStation)
+        
+        smokehouse = hassyBreakfast['Smokehouse & Grill']
+        smokehouse = ', '.join(smokehouse)
+        
+        trueBalance = hassyBreakfast['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title='Hassayampa Dining Hall Breakfast', description= 'Hassayampa Dining Hall Breakfast Menu')
+        
+        embed.set_thumbnail(url="https://imgur.com/a/HTJJsSe")
+        
+        try:
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Salad Bar:", value=saladBar, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Station:", value=homeStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Smokehouse & Grill:", value=smokehouse, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="True Balance:", value=trueBalance, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url="https://imgur.com/a/TEkqYiC")
+        
+    elif(arg1.lower() == 'lunch'):
+        
+        if(current_day == 5 or current_day == 6):
+            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+            return
+        
+        dailyRoot = hassyLunch['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        saladBar = hassyLunch['Salad Bar']
+        saladBar = ', '.join(saladBar)
+        
+        deliStation = hassyLunch['Deli Station']
+        deliStation = ', '.join(deliStation)
+        
+        homeStation = hassyLunch['Home Station']
+        homeStation = ', '.join(homeStation)
+        
+        kosherBistro = hassyLunch['Kosher Bistro']
+        kosherBistro = ', '.join(kosherBistro)
+        
+        pizzaOven = hassyLunch['Pizza Oven']
+        pizzaOven = ', '.join(pizzaOven)
+        
+        smokehouse = hassyLunch['Smokehouse & Grill']
+        smokehouse = ', '.join(smokehouse)
+        
+        trueBalance = hassyLunch['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title='Hassayampa Dining Hall Lunch', description= 'Hassayampa Dining Hall Lunch Menu')
+        
+        embed.set_thumbnail(url="https://imgur.com/a/HTJJsSe")
+        
+        try:
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Salad Bar:", value=saladBar, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Deli Station:", value=deliStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Station:", value=homeStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Kosher Bistro:", value=kosherBistro, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Pizza Oven:", value=pizzaOven, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Smokehouse & Grill:", value=smokehouse, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="True Balance:", value=trueBalance, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url="https://imgur.com/a/TEkqYiC")
+    
+    elif(arg1.lower() == 'dinner'):
+        
+        dailyRoot = hassyDinner['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        saladBar = hassyDinner['Salad Bar']
+        saladBar = ', '.join(saladBar)
+        
+        deliStation = hassyDinner['Deli Station']
+        deliStation = ', '.join(deliStation)
+        
+        homeStation = hassyDinner['Home Station']
+        homeStation = ', '.join(homeStation)
+        
+        kosherBistro = hassyDinner['Kosher Bistro']
+        kosherBistro = ', '.join(kosherBistro)
+        
+        pizzaOven = hassyDinner['Pizza Oven']
+        pizzaOven = ', '.join(pizzaOven)
+        
+        smokehouse = hassyDinner['Smokehouse & Grill']
+        smokehouse = ', '.join(smokehouse)
+        
+        trueBalance = hassyDinner['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title='Hassayampa Dining Hall Dinner', description= 'Hassayampa Dining Hall Dinner Menu')
+        embed.set_thumbnail(url="https://imgur.com/a/HTJJsSe")
+        
+        try:
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Salad Bar:", value=saladBar, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Deli Station:", value=deliStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Station:", value=homeStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Kosher Bistro:", value=kosherBistro, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Pizza Oven:", value=pizzaOven, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Smokehouse & Grill:", value=smokehouse, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="True Balance:", value=trueBalance, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url="https://imgur.com/a/TEkqYiC")
+    
+    elif(arg1.lower() =='brunch'):
+        
+        if(current_day != 5 and current_day != 6):
+            ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
+            return
+        
+        dailyRoot = hassyBrunch['Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        saladBar = hassyBrunch['Salad Bar']
+        saladBar = ', '.join(saladBar)
+        
+        deliStation = hassyBrunch['Deli Station']
+        deliStation = ', '.join(deliStation)
+        
+        homeStation = hassyBrunch['Home Station']
+        homeStation = ', '.join(homeStation)
+        
+        pizzaOven = hassyBrunch['Pizza Oven']
+        pizzaOven = ', '.join(pizzaOven)
+        
+        smokehouse = hassyBrunch['Smokehouse & Grill']
+        smokehouse = ', '.join(smokehouse)
+        
+        trueBalance = hassyBrunch['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title='Hassayampa Dining Hall Brunch', description= 'Hassayampa Dining Hall Brunch Menu')
+        embed.set_thumbnail(url="https://imgur.com/a/HTJJsSe")
+        
+        try:
+            embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Salad Bar:", value=saladBar, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Deli Station:", value=deliStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Home Station:", value=homeStation, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Pizza Oven:", value=pizzaOven, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Smokehouse & Grill:", value=smokehouse, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="True Balance:", value=trueBalance, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url="https://imgur.com/a/TEkqYiC")
+        
+    else:
+        ctx.send("You have requested an invalid meal, please try again")
+    
+    await ctx.send(embed=embed)
+        
 
+@bot.command(name='barrett')
+async def barret(ctx, arg1):
+        
+    now = datetime.now()
+    current_day = now.weekday()
+    
+    if(arg1.lower() == 'breakfast'):
+        
+        if(current_day == 5 or current_day == 6):
+            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+            return
+        
+        saladBar = barrettBreakfast['Salad Bar']
+        saladBar = ', '.join(saladBar)
+        
+        grill = barrettBreakfast['Grill']
+        grill = ', '.join(grill)
+        
+        trueBalance = barrettBreakfast['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        dailyRoot = barrettBreakfast['The Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        dessert = barrettBreakfast['Dessert/Waffle']
+        dessert = ', '.join(dessert)
+        
+        omelets = barrettBreakfast['Omelets']
+        omelets = ', '.join(omelets)
+        
+        embed = discord.Embed(title='Barrett Dining Hall Breakfast', description= 'Barrett Dining Hall Breakfast Menu')
+        embed.set_thumbnail(url="https://imgur.com/a/slcg2XT")
+        
+        try:
+            embed.add_field(name="Salad Bar:", value=saladBar, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Grill:", value=grill, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="True Balance:", value=trueBalance, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="The Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Dessert/Waffle:", value=dessert, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Omelets:", value=omelets, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url="https://https://imgur.com/a/GpBTJPA")
+    
+    elif(arg1.lower() == 'lunch'):
+        
+        if(current_day == 5 and current_day == 6):
+            ctx.send("This dining hall is not serving Lunch today, try requesting Brunch instead")
+            return
+        
+        homeZone1 = barrettLunch['Home Zone 1']
+        homeZone1 = ', '.join(homeZone1)
+        
+        deli = barrettLunch['Deli']
+        deli = ', '.join(deli)
+        
+        saladBar = barrettLunch['Salad Bar']
+        saladBar = ', '.join(saladBar)
+        
+        grill = barrettLunch['Grill']
+        grill = ', '.join(grill)
+        
+        pizza = barrettLunch['Pizza']
+        pizza = ', '.join(pizza)
+        
+        trueBalance = barrettLunch['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        dailyRoot = barrettLunch['The Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        soup = barrettLunch['Soup Station']
+        soup = ', '.join(soup)
+        
+        embed = discord.Embed(title='Barrett Dining Hall Lunch', description= 'Barrett Dining Hall Lunch Menu')
+        embed.set_thumbnail(url="https://imgur.com/a/slcg2XT")
+        
+        try:
+            embed.add_field(name="Home Zone 1:", value=homeZone1, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Deli:", value=deli, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Salad Bar:", value=saladBar, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Grill:", value=grill, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Pizza:", value=pizza, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="True Balance:", value=trueBalance, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="The Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Soup Station:", value=soup, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url="https://imgur.com/a/GpBTJPA")
+        
+    elif(arg1.lower() == 'dinner'):
+        
+        homeZone1 = barrettDinner['Home Zone 1']
+        homeZone1 = ', '.join(homeZone1)
+        
+        deli = barrettDinner['Deli']
+        deli = ', '.join(deli)
+        
+        saladBar = barrettDinner['Salad Bar']
+        saladBar = ', '.join(saladBar)
+        
+        grill = barrettDinner['Grill']
+        grill = ', '.join(grill)
+        
+        pizza = barrettDinner['Pizza']
+        pizza = ', '.join(pizza)
+        
+        trueBalance = barrettDinner['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        dailyRoot = barrettDinner['The Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        soup = barrettDinner['Soup Station']
+        soup = ', '.join(soup)
+        
+        embed = discord.Embed(title='Barrett Dining Hall Dinner', description= 'Barrett Dining Hall Dinner Menu')
+        embed.set_thumbnail(url="https://imgur.com/a/slcg2XT")
+        
+        try:
+            embed.add_field(name="Home Zone 1:", value=homeZone1, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Deli:", value=deli, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Salad Bar:", value=saladBar, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Grill:", value=grill, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Pizza:", value=pizza, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="True Balance:", value=trueBalance, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="The Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Soup Station:", value=soup, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url="https://imgur.com/a/GpBTJPA")
+    
+    elif(arg1.lower() == 'brunch'):
+        
+        if(current_day != 5 and current_day != 6):
+            ctx.send("This dining hall is not serving Brunch today, try requesting Lunch or Breakfast instead")
+            return
+            
+        homeZone1 = barrettBrunch['Home Zone 1']
+        homeZone1 = ', '.join(homeZone1)
+        
+        grill = barrettBrunch['Grill']
+        grill = ', '.join(grill)
+        
+        pizza = barrettBrunch['Pizza']
+        pizza = ', '.join(pizza)
+        
+        trueBalance = barrettBrunch['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        dailyRoot = barrettBrunch['The Daily Root']
+        dailyRoot = ', '.join(dailyRoot)
+        
+        
+        embed = discord.Embed(title='Barrett Dining Hall Dinner', description= 'Barrett Dining Hall Dinner Menu')
+        embed.set_thumbnail(url="https://imgur.com/a/slcg2XT")
+        
+        try:
+            embed.add_field(name="Home Zone 1:", value=homeZone1, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Grill:", value=grill, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Pizza:", value=pizza, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="True Balance:", value=trueBalance, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="The Daily Root:", value=dailyRoot, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url="https://imgur.com/a/GpBTJPA")
+        
+    else:
+        ctx.send("You have requested an invalid meal, please try again")
+    
+    await ctx.send(embed=embed)
+    
+
+@bot.command(name='pitchforks', aliases=['MU', 'memorial union'])
+async def pitchforks(ctx, arg1):
+    
+    now = datetime.now()
+    current_day = now.weekday()
+    
+    if(arg1.lower() == 'breakfast'):
+        
+        if(current_day == 5 or current_day == 6):
+            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+            return
+    
+    
+        international = pitchforksBreakfast['International']
+        international = ', '.join(international)
+        
+        vegan = pitchforksBreakfast['Vegan']
+        vegan = ', '.join(vegan)
+        
+        soups = pitchforksBreakfast['Soups']
+        soups = ', '.join(soups)
+        
+        waffle = pitchforksBreakfast['Waffle Station & Ice Cream']
+        waffle = ', '.join(waffle)
+        
+        trueBalance = pitchforksBreakfast['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title='Pitchforks Dining Hall Breakfast', description= 'Pitchforks Dining Hall Breakfast Menu')
+        embed.set_thumbnail(url="https://imgur.com/FvCWGxy")
+        
+        try:
+            embed.add_field(name="International:", value=international, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Vegan:", value=vegan, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Soups:", value=soups, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Waffle Station & Ice Cream:", value=waffle, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="True Balance:", value=trueBalance, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url="https://imgur.com/hlzODkP")
+    
+    elif(arg1.lower() == 'lunch'):
+        
+        if(current_day == 5 or current_day == 6):
+            ctx.send("This dining hall is not serving Lunch today, try requesting Breakfast instead")
+            return
+    
+        salad = pitchforksLunch['Salad & Deli']
+        salad = ', '.join(salad)
+        
+        international = pitchforksLunch['International']
+        international = ', '.join(international)
+        
+        vegan = pitchforksLunch['Vegan']
+        vegan = ', '.join(vegan)
+        
+        pizza = pitchforksLunch['Pizza']
+        pizza = ', '.join(pizza)
+        
+        asian = pitchforksLunch['Asian']
+        asian = ', '.join(asian)
+        
+        limon = pitchforksLunch['Limon']
+        limon = ', '.join(limon)
+        
+        soups = pitchforksLunch['Soups']
+        soups = ', '.join(soups)
+        
+        trueBalance = pitchforksLunch['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title='Pitchforks Dining Hall Lunch', description= 'Pitchforks Dining Hall Lunch Menu')
+        embed.set_thumbnail(url="https://imgur.com/FvCWGxy")
+        
+        try:
+            embed.add_field(name="Salad & Deli:", value=salad, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="International:", value=international, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Vegan:", value=vegan, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Pizza:", value=pizza, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Asian:", value=asian, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Limon:", value=limon, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Soups:", value=soups, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="True Balance:", value=trueBalance, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url="https://imgur.com/hlzODkP")
+        
+    
+    elif(arg1.lower() == 'dinner'):
+        
+        salad = pitchforksDinner['Salad & Deli']
+        salad = ', '.join(salad)
+        
+        international = pitchforksDinner['International']
+        international = ', '.join(international)
+        
+        vegan = pitchforksDinner['Vegan']
+        vegan = ', '.join(vegan)
+        
+        pizza = pitchforksDinner['Pizza']
+        pizza = ', '.join(pizza)
+        
+        asian = pitchforksDinner['Asian']
+        asian = ', '.join(asian)
+        
+        limon = pitchforksDinner['Limon']
+        limon = ', '.join(limon)
+        
+        soups = pitchforksDinner['Soups']
+        soups = ', '.join(soups)
+        
+        trueBalance = pitchforksDinner['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title='Pitchforks Dining Hall Dinner', description= 'Pitchforks Dining Hall Dinner Menu')
+        embed.set_thumbnail(url="https://imgur.com/FvCWGxy")
+        
+        try:
+            embed.add_field(name="Salad & Deli:", value=salad, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="International:", value=international, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Vegan:", value=vegan, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Pizza:", value=pizza, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Asian:", value=asian, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Limon:", value=limon, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Soups:", value=soups, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="True Balance:", value=trueBalance, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url="https://imgur.com/hlzODkP")
+    
+    elif(arg1.lower() == 'brunch'):
+        
+        if(current_day != 5 and current_day != 6):
+            ctx.send("This dining hall is not serving Brunch today, try requesting Lunch or Breakfast instead")
+            return
+        
+        international = pitchforksBrunch['International']
+        international = ', '.join(international)
+        
+        vegan = pitchforksBrunch['Vegan']
+        vegan = ', '.join(vegan)
+        
+        soups = pitchforksBrunch['Soups']
+        soups = ', '.join(soups)
+        
+        trueBalance = pitchforksBrunch['True Balance']
+        trueBalance = ', '.join(trueBalance)
+        
+        embed = discord.Embed(title='Pitchforks Dining Hall Brunch', description= 'Pitchforks Dining Hall Brunch Menu')
+        embed.set_thumbnail(url="https://imgur.com/FvCWGxy")
+        
+        try:
+            embed.add_field(name="International:", value=international, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Vegan:", value=vegan, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="Soups:", value=soups, inline=False)
+        except:
+            pass
+        
+        try:
+            embed.add_field(name="True Balance:", value=trueBalance, inline=False)
+        except:
+            pass
+        
+        embed.set_image(url="https://imgur.com/hlzODkP")
+    
+    else:
+        ctx.send("You have requested an invalid meal, please try again")
+    
+    await ctx.send(embed=embed)
 
 
 bot.run(TOKEN)
