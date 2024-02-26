@@ -32,6 +32,7 @@ now = datetime.now()
 hour = now.hour
 day = now.weekday()
 
+'''
 tookerBreakfast = {}
 tookerLunch = {}
 tookerDinner = {}
@@ -57,7 +58,7 @@ barrettBreakfast = {}
 barrettLunch = {}
 barrettDinner = {}
 barrettBrunch = {}
-
+'''
 
 
 async def barrettReq(requestedMeal):
@@ -66,7 +67,7 @@ async def barrettReq(requestedMeal):
     page = await browser.newPage()
     
     page.setDefaultNavigationTimeout(60000)
-    await page.goto('https://asu.campusdish.com/DiningVenues/TempeBarrettDiningCenter')
+    await page.goto('https://asu.campusdish.com/DiningVenues/Tempe-Campus/BarrettTempe')
     
     try:
         subscription_modal_button = await page.xpath('//*[@id="modal-root-mail-subsription"]/div/div/div/div/div/div[1]/button')
@@ -88,7 +89,7 @@ async def barrettReq(requestedMeal):
         try:
             food_element = await page.xpath(xpath)
             food_element = food_element[0]
-            food_elements = await food_element.querySelectorAll('div.sc-eZkCL.hKoqlN > button > h3 > span')
+            food_elements = await food_element.querySelectorAll('div.sc-kdBSHD.gQLTsY > button > h3 > span')
 
             foods = []
             
@@ -105,6 +106,7 @@ async def barrettReq(requestedMeal):
         
         await asyncio.sleep(2)
 
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
@@ -113,9 +115,10 @@ async def barrettReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
@@ -124,7 +127,7 @@ async def barrettReq(requestedMeal):
             except:
                 await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -143,6 +146,7 @@ async def barrettReq(requestedMeal):
     elif(requestedMeal == 'lunch'):
         await asyncio.sleep(2)
 
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
@@ -151,18 +155,20 @@ async def barrettReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
                 breakfastOption = await page.waitForXPath('//div[text()="Lunch"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Lunch option today at Tooker dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
+
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
@@ -183,6 +189,7 @@ async def barrettReq(requestedMeal):
             
         await asyncio.sleep(2)
 
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
@@ -191,18 +198,19 @@ async def barrettReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
                 breakfastOption = await page.waitForXPath('//div[text()="Dinner"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Dinner option today at Tooker dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -224,6 +232,7 @@ async def barrettReq(requestedMeal):
         
         await asyncio.sleep(2)
 
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
@@ -232,18 +241,19 @@ async def barrettReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
                 breakfastOption = await page.waitForXPath('//div[text()="Brunch"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Brunch option today at Tooker dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -267,13 +277,14 @@ async def tookerReq(requestedMeal):
     page = await browser.newPage()
     
     page.setDefaultNavigationTimeout(60000)
-    await page.goto('https://asu.campusdish.com/DiningVenues/TookerHouseDining')
+    await page.goto('https://asu.campusdish.com/DiningVenues/Tempe-Campus/TookerHouseDining')
     
     try:
         subscription_modal_button = await page.xpath('//*[@id="modal-root-mail-subsription"]/div/div/div/div/div/div[1]/button')
         if subscription_modal_button:
             await asyncio.wait_for(subscription_modal_button[0].click(), timeout=10)
     except TimeoutError:
+        print("Popup 1 not closed")
         pass
 
     try:
@@ -281,6 +292,7 @@ async def tookerReq(requestedMeal):
         if cookie_banner_button:
             await asyncio.wait_for(cookie_banner_button[0].click(), timeout=10)
     except TimeoutError:
+        print("Popup 2 not closed")
         pass
     
     food_dict = {}
@@ -289,8 +301,8 @@ async def tookerReq(requestedMeal):
         try:
             food_element = await page.xpath(xpath)
             food_element = food_element[0]
-            food_elements = await food_element.querySelectorAll('div.sc-eZkCL.hKoqlN > button > h3 > span')
-
+            food_elements = await food_element.querySelectorAll('div.sc-kdBSHD.gQLTsY > button > h3 > span')
+            
             foods = []
             
             for food in food_elements:
@@ -304,19 +316,25 @@ async def tookerReq(requestedMeal):
     
     if(requestedMeal == 'breakfast'):
         
-        await asyncio.sleep(2)
+        await asyncio.sleep(5)
 
-        meal = await page.querySelector('.ChoosenMeal')
-        meal = await page.evaluate('(element) => element.textContent', meal)
+        await page.waitForSelector('.ChoosenMeal')
+        mealElement = await page.querySelector('.ChoosenMeal')
+        if mealElement:  # Ensure the element exists
+            meal = await page.evaluate('(element) => element.textContent', mealElement)
+            print(meal)
+        else:
+            print("ChoosenMeal element not found.")
 
         if meal != 'Breakfast':
             try:
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
@@ -325,7 +343,7 @@ async def tookerReq(requestedMeal):
             except:
                 await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -340,31 +358,31 @@ async def tookerReq(requestedMeal):
             
     elif(requestedMeal == 'lunch'):
         print('lunch')
-        await asyncio.sleep(2)
+        await asyncio.sleep(5)
 
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
         if meal != 'Lunch':
             try:
-                print(1)
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
-                print(2)
                 breakfastOption = await page.waitForXPath('//div[text()="Lunch"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Lunch option today at Tooker dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
-            print(3)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
+
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
@@ -381,8 +399,10 @@ async def tookerReq(requestedMeal):
             
     elif(requestedMeal == 'dinner'):
             
-        await asyncio.sleep(2)
+        await asyncio.sleep(5)
 
+
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
@@ -391,18 +411,19 @@ async def tookerReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
                 breakfastOption = await page.waitForXPath('//div[text()="Dinner"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Dinner option today at Tooker dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -420,8 +441,9 @@ async def tookerReq(requestedMeal):
     
     elif(requestedMeal == 'brunch'):
         
-        await asyncio.sleep(2)
+        await asyncio.sleep(5)
 
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
@@ -430,18 +452,19 @@ async def tookerReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
                 breakfastOption = await page.waitForXPath('//div[text()="Brunch"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Brunch option today at Tooker dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -468,7 +491,7 @@ async def manzyReq(requestedMeal):
     page = await browser.newPage()
     
     page.setDefaultNavigationTimeout(60000)
-    await page.goto('https://asu.campusdish.com/en/diningvenues/tempemanzanitaresidentialrestaurant/')
+    await page.goto('https://asu.campusdish.com/DiningVenues/Tempe-Campus/TempeManzanitaResidentialRestaurant')
     
     try:
         subscription_modal_button = await page.xpath('//*[@id="modal-root-mail-subsription"]/div/div/div/div/div/div[1]/button')
@@ -490,7 +513,7 @@ async def manzyReq(requestedMeal):
         try:
             food_element = await page.xpath(xpath)
             food_element = food_element[0]
-            food_elements = await food_element.querySelectorAll('div.sc-eZkCL.hKoqlN > button > h3 > span')
+            food_elements = await food_element.querySelectorAll('div.sc-kdBSHD.gQLTsY > button > h3 > span')
             
             foods = []
             
@@ -506,30 +529,28 @@ async def manzyReq(requestedMeal):
     if(requestedMeal == 'breakfast'):
             await asyncio.sleep(2)
 
+            await page.waitForSelector('.ChoosenMeal')
             meal = await page.querySelector('.ChoosenMeal')
             meal = await page.evaluate('(element) => element.textContent', meal)
 
             if meal != 'Breakfast':
-                print('wrong meal')
                 try:
                     swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                     await swapButton.click()
-                    print('swap button clicked')
                 except:
+                    print("Swap Button Not Found")
                     pass
 
-                dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
+                dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
                 await dropDown.click()
-                print('dropdown clicked')
 
                 try:
                     breakfastOption = await page.waitForXPath('//div[text()="Breakfast"]', timeout=5000)
                     await breakfastOption.click()
-                    print('breakfast option clicked')
                 except:
-                    await print("Sorry but it does not appear that there is a Breakfast option today at Manzanita dining...")
+                    await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-                doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+                doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
                 await doneButton.click()
                 await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -549,34 +570,33 @@ async def manzyReq(requestedMeal):
         
         await asyncio.sleep(2)
 
+
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
         if meal != 'Lunch':
-            print('swapping to lunch')
             try:
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
-                print('swap button clicked')
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
-            print('drop down clicked')
 
             try:
                 breakfastOption = await page.waitForXPath('//div[text()="Lunch"]', timeout=5000)
                 await breakfastOption.click()
-                print('lunch option clicked')
             except:
-                await print("Sorry but it does not appear that there is a Lunch option today at Manzanita dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
-            print('done button clicked')
+
             await asyncio.sleep(2)
                 
         await scrape_food('//*[@id="9135"]', 'Daily Root')
@@ -598,6 +618,8 @@ async def manzyReq(requestedMeal):
         
         await asyncio.sleep(2)
 
+
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
@@ -606,28 +628,44 @@ async def manzyReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
                 breakfastOption = await page.waitForXPath('//div[text()="Dinner"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Dinner option today at Manzanita dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
             await asyncio.sleep(2)
+            
+        await scrape_food('//*[@id="9135"]', 'Daily Root')
+        await scrape_food('//*[@id="13988"]', 'Wok Station')
+        await scrape_food('//*[@id="9139"]', 'Home Zone')
+        await scrape_food('//*[@id="9141"]', 'Salad Bar')
+        await scrape_food('//*[@id="9136"]', 'Waffle Station')
+        await scrape_food('//*[@id="9138"]', 'Grill')
+        await scrape_food('//*[@id="9140"]', 'Pizza')
+        await scrape_food('//*[@id="13991"]', 'Sazon Station')
+        await scrape_food('//*[@id="14484"]', 'Soups')
+        await scrape_food('//*[@id="45028"]', 'True Balance')
+        await scrape_food('//*[@id="46596"]', 'Weekly Bar Rotation')
+        
     
     elif(requestedMeal == 'brunch'):
         
         await asyncio.sleep(2)
 
+
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
         
@@ -636,18 +674,19 @@ async def manzyReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
                 breakfastOption = await page.waitForXPath('//div[text()="Brunch"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Dinner option today at Manzanita dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -655,7 +694,6 @@ async def manzyReq(requestedMeal):
             await asyncio.sleep(2)
         
         
-        await scrape_food('//*[@id="9135"]', 'Daily Root')
         await scrape_food('//*[@id="13988"]', 'Wok Station')
         await scrape_food('//*[@id="9139"]', 'Home Zone')
         await scrape_food('//*[@id="9141"]', 'Salad Bar')
@@ -675,7 +713,7 @@ async def pitchforksReq(requestedMeal):
     page = await browser.newPage()
     
     page.setDefaultNavigationTimeout(60000)
-    await page.goto('https://asu.campusdish.com/en/diningvenues/tempepitchforksrestaurant/')
+    await page.goto('https://asu.campusdish.com/DiningVenues/Tempe-Campus/TempePitchforksRestaurant')
     
     try:
         subscription_modal_button = await page.xpath('//*[@id="modal-root-mail-subsription"]/div/div/div/div/div/div[1]/button')
@@ -697,7 +735,7 @@ async def pitchforksReq(requestedMeal):
         try:
             food_element = await page.xpath(xpath)
             food_element = food_element[0]
-            food_elements = await food_element.querySelectorAll('div.sc-eZkCL.hKoqlN > button > h3 > span')
+            food_elements = await food_element.querySelectorAll('div.sc-kdBSHD.gQLTsY > button > h3 > span')
             
             foods = []
             
@@ -715,6 +753,8 @@ async def pitchforksReq(requestedMeal):
 
         await asyncio.sleep(2)
 
+
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
@@ -723,18 +763,19 @@ async def pitchforksReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
                 breakfastOption = await page.waitForXPath('//div[text()="Breakfast"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Breakfast option today at Pitchforks dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -752,6 +793,8 @@ async def pitchforksReq(requestedMeal):
 
         await asyncio.sleep(2)
 
+
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
@@ -760,18 +803,19 @@ async def pitchforksReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
                 breakfastOption = await page.waitForXPath('//div[text()="Lunch"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Lunch option today at Pitchforks dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -792,6 +836,8 @@ async def pitchforksReq(requestedMeal):
         
         await asyncio.sleep(2)
 
+
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
@@ -800,23 +846,24 @@ async def pitchforksReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
                 breakfastOption = await page.waitForXPath('//div[text()="Dinner"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Breakfast option today at Pitchforks dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
-            await asyncio.sleep(2) 
+            await asyncio.sleep(2)
             
         await scrape_food('//*[@id="17303"]', 'Salad & Deli')
         await scrape_food('//*[@id="14584"]', 'International')
@@ -831,6 +878,8 @@ async def pitchforksReq(requestedMeal):
         
         await asyncio.sleep(2)
 
+
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
@@ -839,23 +888,24 @@ async def pitchforksReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
-                breakfastOption = await page.waitForXPath('//div[text()="Dinner"]', timeout=5000)
+                breakfastOption = await page.waitForXPath('//div[text()="Brunch"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Breakfast option today at Pitchforks dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
-            await asyncio.sleep(2) 
+            await asyncio.sleep(2)
         
         await scrape_food('//*[@id="14584"]', 'International')
         await scrape_food('//*[@id="17302"]', 'Vegan')
@@ -870,7 +920,7 @@ async def hassyReq(requestedMeal):
     page = await browser.newPage()
     
     page.setDefaultNavigationTimeout(60000)
-    await page.goto('https://asu.campusdish.com/DiningVenues/TempeHassayampaDiningCenter')
+    await page.goto('https://asu.campusdish.com/DiningVenues/Tempe-Campus/TempeHassayampaDiningCenter')
     
     try:
         subscription_modal_button = await page.xpath('//*[@id="modal-root-mail-subsription"]/div/div/div/div/div/div[1]/button')
@@ -892,7 +942,7 @@ async def hassyReq(requestedMeal):
         try:
             food_element = await page.xpath(xpath)
             food_element = food_element[0]
-            food_elements = await food_element.querySelectorAll('div.sc-eZkCL.hKoqlN > button > h3 > span')
+            food_elements = await food_element.querySelectorAll('div.sc-kdBSHD.gQLTsY > button > h3 > span')
 
             foods = []
             
@@ -909,6 +959,8 @@ async def hassyReq(requestedMeal):
         
         await asyncio.sleep(2)
 
+
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
@@ -917,9 +969,10 @@ async def hassyReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
@@ -928,7 +981,7 @@ async def hassyReq(requestedMeal):
             except:
                 await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -946,29 +999,29 @@ async def hassyReq(requestedMeal):
         print('lunch')
         await asyncio.sleep(2)
 
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
         if meal != 'Lunch':
             try:
-                print(1)
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
-                print(2)
                 breakfastOption = await page.waitForXPath('//div[text()="Lunch"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Lunch option today at Tooker dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
-            print(3)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
+
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
 
@@ -990,6 +1043,7 @@ async def hassyReq(requestedMeal):
             
         await asyncio.sleep(2)
 
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
@@ -998,18 +1052,19 @@ async def hassyReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
                 breakfastOption = await page.waitForXPath('//div[text()="Dinner"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Dinner option today at Tooker dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -1031,6 +1086,7 @@ async def hassyReq(requestedMeal):
         
         await asyncio.sleep(2)
 
+        await page.waitForSelector('.ChoosenMeal')
         meal = await page.querySelector('.ChoosenMeal')
         meal = await page.evaluate('(element) => element.textContent', meal)
 
@@ -1039,18 +1095,19 @@ async def hassyReq(requestedMeal):
                 swapButton = await page.waitForSelector('.DateMealFilterButton', timeout=5000)
                 await swapButton.click()
             except:
+                print("Swap Button Not Found")
                 pass
 
-            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[2]/div/div/div[2]/div', timeout=5000)
+            dropDown = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[2]/div/div/div[2]/div/div', timeout=5000)
             await dropDown.click()
 
             try:
                 breakfastOption = await page.waitForXPath('//div[text()="Brunch"]', timeout=5000)
                 await breakfastOption.click()
             except:
-                await print("Sorry but it does not appear that there is a Brunch option today at Tooker dining...")
+                await print("Sorry but it does not appear that there is a Breakfast option today at Tooker dining...")
 
-            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[2]/div/div/div/div[3]/button[2]', timeout=5000)
+            doneButton = await page.waitForXPath('//*[@id="modal-root"]/div[1]/div/div/div/div[3]/button[2]', timeout=5000)
 
             await doneButton.click()
             await page.waitForSelector('.ChoosenMeal', timeout=60000)
@@ -1070,63 +1127,197 @@ async def hassyReq(requestedMeal):
     await browser.close()
     return food_dict
 
+'''
+async def checkTime():
+    while True:  # Infinite loop to ensure it runs daily
+        now = datetime.now()
+        # Determine if it's before or after the target time (8 AM minus processing time)
+        if now.hour < 21 or (now.hour == 21 and now.minute < 59):
+            # If before 7:55 AM, set `then` to today at 7:55 AM
+            then = now.replace(hour=21, minute=57, second=0, microsecond=0)
+        else:
+            # If after 7:55 AM, set `then` to tomorrow at 7:55 AM
+            next_day = now + timedelta(days=1)
+            then = next_day.replace(hour=21, minute=59, second=0, microsecond=0)
+        
+        # Calculate wait time in seconds
+        wait_time = (then - now).total_seconds()
+        # Wait until 5 minutes before 8 AM
+        await asyncio.sleep(wait_time)
 
+        # It's now 5 minutes before 8 AM, start the scraping process
+        current_day = datetime.now().weekday()  # Ensure to get the current day here
+        print("Scraping Started at 7:55 AM")
+        
+        if((current_day == 5) or (current_day == 6)):
+        
+            tookerBrunch = await tookerReq('brunch')
+            
+            manzyBrunch = await manzyReq('brunch')
+            
+            hassyBrunch = await hassyReq('brunch')
+            
+            barrettBrunch = await barrettReq('brunch')
+            
+            pitchforksBrunch = await pitchforksReq('brunch')
+        
+        else:
+            print("Weekday Scraping")
+            
+            tookerBreakfast = await tookerReq('breakfast')
+            tookerLunch = await tookerReq('lunch')
+            
+            manzyBreakfast = await manzyReq('breakfast')
+            manzyLunch = await manzyReq('lunch')
+            
+            pitchforksBreakfast = await pitchforksReq('breakfast')
+            pitchforksLunch = await pitchforksReq('lunch')
+            
+            hassyBreakfast = await hassyReq('breakfast')
+            hassyLunch = await hassyReq('lunch')
+            
+            barrettBreakfast = await barrettReq('breakfast')
+            barrettLunch = await barrettReq('lunch')
+
+            
+            tookerDinner = await tookerReq('dinner')
+
+            manzyDinner = await manzyReq('dinner')
+            
+            pitchforksDinner = await pitchforksReq('dinner')
+            
+            hassyDinner = await hassyReq('dinner')
+            
+            barrettDinner = await barrettReq('dinner')
+'''
+        
 
 async def checkTime():
-
-    now = datetime.now()
-    then = now + timedelta(days=0)
-    then = then.replace(hour=16, minute=10, second=0, microsecond=0)
-    wait_time = (then-now).total_seconds()
-    await asyncio.sleep(wait_time)
     
     
-    current_day = now.weekday()
 
-    print("Scraping Started")
+    while True:
+        now = datetime.now()
+        then = now.replace(hour=8, minute = 00, second=0, microsecond=0)  # Target time at 10:05 PM
 
-    if((current_day == 5) or (current_day == 6)):
-        
-        tookerBrunch = await tookerReq('brunch')
-        
-        manzyBrunch = await manzyReq('brunch')
-        
-        hassyBrunch = await hassyReq('brunch')
-        
-        barrettBrunch = await barrettReq('brunch')
-        
-        pitchforksBrunch = await pitchforksReq('brunch')
-        
-    else:
-        print("Weekday Scraping")
-        
-        tookerBreakfast = await tookerReq('breakfast')
-        tookerLunch = await tookerReq('lunch')
-        
-        manzyBreakfast = await manzyReq('breakfast')
-        manzyLunch = await manzyReq('lunch')
-        
-        pitchforksBreakfast = await pitchforksReq('breakfast')
-        pitchforksLunch = await pitchforksReq('lunch')
-        
-        hassyBreakfast = await hassyReq('breakfast')
-        hassyLunch = await hassyReq('lunch')
-        
-        barrettBreakfast = await barrettReq('breakfast')
-        barrettLunch = await barrettReq('lunch')
+        # If it's already past 10:05 PM, set `then` to 10:05 PM the next day.
+        if now > then:
+            then += timedelta(days=1)
 
+        wait_time = (then - now).total_seconds()
+        print(f"Waiting for {wait_time} seconds.")
+        await asyncio.sleep(wait_time)
+    
+    
+        current_day = now.weekday()
+
+        print("Scraping Started")
+
+        if((current_day == 4) or (current_day == 5) or (current_day == 6)):
+            
+            global tookerBrunch
+            tookerBrunch = await tookerReq('brunch')
+            
+            print("Tooker Br Scraping Completed")
+            
+            global manzyBrunch 
+            manzyBrunch = await manzyReq('brunch')
+            
+            print("Manzy B/R Scraping Completed")
+            
+            global hassyBrunch 
+            hassyBrunch = await hassyReq('brunch')
+            
+            print("Hassy B/R Scraping Completed")
+            
+            global barrettBrunch 
+            barrettBrunch = await barrettReq('brunch')
+            
+            print("Barrett B/R Scraping Completed")
+            
+            global pitchforksBrunch 
+            pitchforksBrunch = await pitchforksReq('brunch')
+            
+            print("Pitchforks B/R Scraping Completed")
+            
+        else:
+            print("Weekday Scraping")
+            
+            global tookerBreakfast
+            tookerBreakfast = await tookerReq('breakfast')
+            
+            
+            global tookerLunch
+            tookerLunch = await tookerReq('lunch')
+            
+            print("Tooker B/L Scraping Completed")
+            
+            global manzyBreakfast
+            manzyBreakfast = await manzyReq('breakfast')
+            
+            global manzyLunch 
+            manzyLunch = await manzyReq('lunch')
+            
+            
+            
+            print("Manzy B/L Scraping Completed")
+            
+            global pitchforksBreakfast
+            pitchforksBreakfast = await pitchforksReq('breakfast')
+            
+            global pitchforksLunch
+            pitchforksLunch = await pitchforksReq('lunch')
+            
+            
+            
+            print("Pitchforks B/L Scraping Completed")
+            
+            global hassyBreakfast
+            hassyBreakfast = await hassyReq('breakfast')
+            
+            global hassyLunch
+            hassyLunch = await hassyReq('lunch')
+            
+            
+            
+            print("Hassy B/L Scraping Completed")
+            
+            global barrettBreakfast 
+            barrettBreakfast = await barrettReq('breakfast')
+            
+            global barrettLunch
+            barrettLunch = await barrettReq('lunch')
+            
+            
+            
+            print("Barrett B/L Scraping Completed")
         
+        global tookerDinner
         tookerDinner = await tookerReq('dinner')
-
+        
+        print("Tooker D Scraping Completed")
+        
+        global manzyDinner
         manzyDinner = await manzyReq('dinner')
         
-        pitchforksDinner = await pitchforksReq('dinner')
+        print("Manzy D Scraping Completed")
+
+        global barrettDinner
+        barrettDinner = await barrettReq('dinner') 
         
+        print("Barrett D Scraping Completed")
+        
+        global hassyDinner
         hassyDinner = await hassyReq('dinner')
         
-        barrettDinner = await barrettReq('dinner')
-                
+        print("Hassy D Scraping Completed")
         
+        global pitchforksDinner
+        pitchforksDinner = await pitchforksReq('dinner')
+        
+        print("Pitchforks D Scraping Completed")
+                
+
 
 
 @bot.event
@@ -1142,38 +1333,43 @@ async def shutdown(ctx):
 @bot.command(name='tooker')
 async def tooker(ctx, arg1):
     
+    # print("\n\n")
+    # print(tookerBreakfast)
+    # print("\n\n")
+    # print(tookerLunch)
+    # print("\n\n")
+    # print(tookerDinner)
+    
     now = datetime.now()
     current_day = now.weekday()
     
     if(arg1.lower() == 'breakfast'):
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+        
+        if(current_day == 4 or current_day == 5 or current_day == 6):
+            await ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
             return
-        
-        dailyRoot = tookerBreakfast['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = tookerBreakfast['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        trueBalance = tookerBreakfast['True Balance']
-        trueBalance = ', '.join(trueBalance)
         
         embed = discord.Embed(title='Tooker House Breakfast', description= 'Tooker House Breakfast Menu')
     
         embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
         
         try:
+            dailyRoot = tookerBreakfast['Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            homeZone = tookerBreakfast['Home Zone']
+            homeZone = ', '.join(homeZone)  
             embed.add_field(name="Home Zone:", value=homeZone, inline=False)
         except:
             pass
         
         try:
+            trueBalance = tookerBreakfast['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name='True Balance:', value=trueBalance, inline=False)
         except:
             pass
@@ -1182,66 +1378,65 @@ async def tooker(ctx, arg1):
         
         
     elif(arg1.lower() == 'lunch'):
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Lunch today, try requesting Brunch instead")
+        
+        if(current_day == 4 or current_day == 5 or current_day == 6):
+            await ctx.send("This dining hall is not serving Lunch today, try requesting Brunch instead")
             return
         
-        dailyRoot = tookerLunch['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
         
-        homeZone = tookerLunch['Home Zone']
-        homeZone = ', '.join(homeZone)
         
-        grill = tookerLunch['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = tookerLunch['Pizza']
-        pizza = ', '.join(pizza)
-        
-        soup = tookerLunch['Soup']
-        soup = ', '.join(soup)
-        
-        trueBalance = tookerLunch['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        shawarma = ['Falafel Pita']
-        shawarma = ', '.join(shawarma)
         
         embed = discord.Embed(title='Tooker House Lunch', description= 'Tooker House Lunch Menu')
     
         embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
         
         try:
+            dailyRoot = tookerLunch['Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            
+            homeZone = tookerLunch['Home Zone']
+            homeZone = ', '.join(homeZone)
             embed.add_field(name="Home Zone:", value=homeZone, inline=False)
         except:
             pass
         
         try:
-            embed.add_field(name='True Balance:', value=trueBalance, inline=False)
+            
+            trueBalance = tookerLunch['True Balance']
+            trueBalance = ', '.join(trueBalance)   
+            embed.add_field(name='True Balance:', value=trueBalance, inline=False) 
         except:
             pass
         
         try:
+            grill = tookerLunch['Grill']
+            grill = ', '.join(grill)
             embed.add_field(name='Grill', value=grill, inline=False)
         except:
             pass
         
         try:
+            pizza = tookerLunch['Pizza']
+            pizza = ', '.join(pizza)
             embed.add_field(name='Pizza', value=pizza, inline=True)
         except:
             pass
         
         try:
-            embed.add_field(name='Soup', value=soup, inline=False)
+            soup = tookerLunch['Soup']
+            soup = ', '.join(soup)
+            embed.add_field(name='Soup', value=soup, inline=False)        
         except:
             pass
         
         try:
+            shawarma = ['Falafel Pita']
+            shawarma = ', '.join(shawarma)
             embed.add_field(name='Shawarma Station', value=shawarma, inline=True)
         except:
             pass
@@ -1250,62 +1445,56 @@ async def tooker(ctx, arg1):
         
     elif(arg1.lower() == 'dinner'):
         
-        dailyRoot = tookerDinner['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = tookerDinner['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        grill = tookerDinner['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = tookerDinner['Pizza']
-        pizza = ', '.join(pizza)
-        
-        soup = tookerDinner['Soup']
-        soup = ', '.join(soup)
-        
-        trueBalance = tookerDinner['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        shawarma = ['Chicken Shawarma Pita', 'Falafel Pita']
-        shawarma = ', '.join(shawarma)
         
         embed = discord.Embed(title='Tooker House Dinner', description= 'Tooker House Dinner Menu')
     
         embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
         
         try:
+            dailyRoot = tookerDinner['Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            homeZone = tookerDinner['Home Zone']
+            homeZone = ', '.join(homeZone)
             embed.add_field(name="Home Zone:", value=homeZone, inline=False)
         except:
             pass
         
         try:
+            trueBalance = tookerDinner['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name='True Balance:', value=trueBalance, inline=False)
         except:
             pass
         
         try:
+            grill = tookerDinner['Grill']
+            grill = ', '.join(grill)
             embed.add_field(name='Grill', value=grill, inline=False)
         except:
             pass
         
         try:
+            pizza = tookerDinner['Pizza']
+            pizza = ', '.join(pizza)
             embed.add_field(name='Pizza', value=pizza, inline=True)
         except:
             pass
         
         try:
+            soup = tookerDinner['Soup']
+            soup = ', '.join(soup)
             embed.add_field(name='Soup', value=soup, inline=False)
         except:
             pass
         
         try:
+            shawarma = ['Chicken Shawarma Pita', 'Falafel Pita']
+            shawarma = ', '.join(shawarma)
             embed.add_field(name='Shawarma Station', value=shawarma, inline=True)
         except:
             pass
@@ -1313,131 +1502,132 @@ async def tooker(ctx, arg1):
         embed.set_image(url="https://i.imgur.com/IkomYmr.jpg")
         
     elif(arg1.lower() == 'brunch'):
-        if(current_day != 5 and current_day != 6):
-            ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
+        
+        if(current_day != 4 and current_day != 5 and current_day != 6):
+            await ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
             return
-        
-        dailyRoot = tookerBrunch['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        homeZone = tookerBrunch['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        grill = tookerBrunch['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = tookerBrunch['Pizza']
-        pizza = ', '.join(pizza)
-        
-        trueBalance = tookerBrunch['True Balance']
-        trueBalance = ', '.join(trueBalance)
         
         embed = discord.Embed(title='Tooker House Brunch', description= 'Tooker House Brunch Menu')
 
         embed.set_thumbnail(url="https://i.imgur.com/AKpXgNY.png")
         
         try:
+            dailyRoot = tookerBrunch['Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            homeZone = tookerBrunch['Home Zone']
+            homeZone = ', '.join(homeZone)
             embed.add_field(name="Home Zone:", value=homeZone, inline=False)
         except:
             pass
         
         try:
+            trueBalance = tookerBrunch['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name='True Balance:', value=trueBalance, inline=False)
         except:
             pass
         
         try:
+            grill = tookerBrunch['Grill']
+            grill = ', '.join(grill)
             embed.add_field(name='Grill', value=grill, inline=False)
         except:
             pass
         
         try:
+            pizza = tookerBrunch['Pizza']
+            pizza = ', '.join(pizza)
             embed.add_field(name='Pizza', value=pizza, inline=True)
         except:
             pass
         
     else:
-        ctx.send("You have requested an invalid meal, please try again")
+        await ctx.send("You have requested an invalid meal, please try again")
     
     await ctx.send(embed=embed)
 
 @bot.command(name='manzanita', aliases=['manzy'])
 async def manzy(ctx, arg1):
     
+    # print("\n\n")
+    # print(manzyBrunch)
+    # print("\n\n")
+    # print(manzyLunch)
+    # print("\n\n")
+    # print(manzyDinner)
+    
     now = datetime.now()
     current_day = now.weekday()
     
     if(arg1.lower() == 'breakfast'):
         
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+        if(current_day == 4 or current_day == 5 or current_day == 6):
+            await ("This dining hall is not serving Breakfast today, try requesting Brunch instead")
             return
         
         
-        dailyRoot = manzyBreakfast['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        wokStation = manzyBreakfast['Wok Station']
-        wokStation = ', '.join(wokStation)
-        
-        homeZone = manzyBreakfast['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        saladBar = manzyBreakfast['Salad Bar']
-        saladBar = ', '.join(saladBar)
-        
-        grill = manzyBreakfast['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = manzyBreakfast['Pizza']
-        pizza = ', '.join(pizza)
-        
-        soup = manzyBreakfast['Soups']
-        soup = ', '.join(soup)
-        
-        trueBalance = manzyBreakfast['True Balance']
-        trueBalance = ', '.join(trueBalance)
         
         embed = discord.Embed(title='Manzanita Dining Hall Breakfast', description= 'Manzanita Dining Hall Breakfast Menu')
         
         embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
         
         try:
+            dailyRoot = manzyBreakfast['Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            wokStation = manzyBreakfast['Wok Station']
+            wokStation = ', '.join(wokStation)
             embed.add_field(name="Wok Station:", value=wokStation, inline=False)
         except:
             pass
         
         try:
+            homeZone = manzyBreakfast['Home Zone']
+            homeZone = ', '.join(homeZone)
             embed.add_field(name="Home Zone:", value=homeZone, inline=False)
         except:
             pass
         
         try:
+            saladBar = manzyBreakfast['Salad Bar']
+            saladBar = ', '.join(saladBar)
+            embed.add_field(name='Salad Bar', value=saladBar, inline=False)
+        except:
+            pass
+        
+        try:
+            grill = manzyBreakfast['Grill']
+            grill = ', '.join(grill)
             embed.add_field(name='Grill', value=grill, inline=False)
         except:
             pass
         
         try:
+            pizza = manzyBreakfast['Pizza']
+            pizza = ', '.join(pizza)
             embed.add_field(name='Pizza', value=pizza, inline=True)
         except:
             pass
         
         try:
+            soup = manzyBreakfast['Soups']
+            soup = ', '.join(soup)
             embed.add_field(name='Soups', value=soup, inline=False)
         except:
             pass
         
         try:
+            trueBalance = manzyBreakfast['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name='True Balance:', value=trueBalance, inline=False)
         except:
             pass
@@ -1446,107 +1636,94 @@ async def manzy(ctx, arg1):
     
     elif(arg1.lower() == 'lunch'):
         
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+        if(current_day == 4 or current_day == 5 or current_day == 6):
+            await ctx.send("This dining hall is not serving Lunch today, try requesting Brunch instead")
             return
-        
-        
-        dailyRoot = manzyLunch['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        wokStation = manzyLunch['Wok Station']
-        wokStation = ', '.join(wokStation)
-        
-        homeZone = manzyLunch['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        deliSweets = manzyLunch['Deli/Sweets']
-        deliSweets = ', '.join(deliSweets)
-        
-        saladBar = manzyDinner['Salad Bar']
-        saladBar = ', '.join(saladBar)
-        
-        waffleStation = manzyLunch['Waffle Station']
-        waffleStation = ', '.join(waffleStation)
-        
-        grill = manzyLunch['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = manzyLunch['Pizza']
-        pizza = ', '.join(pizza)
-        
-        sazonStation = manzyLunch['Sazon Station']
-        sazonStation = ', '.join(sazonStation)
-        
-        soup = manzyLunch['Soups']
-        soup = ', '.join(soup)
-        
-        trueBalance = manzyLunch['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        weeklyBarRotation = manzyLunch['Weekly Bar Rotation']
-        weeklyBarRotation = ', '.join(weeklyBarRotation)
         
         embed = discord.Embed(title='Manzanita Dining Hall Lunch', description= 'Manzanita Dining Hall Lunch Menu')
         
         embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
         
         try:
+            dailyRoot = manzyLunch['Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            wokStation = manzyLunch['Wok Station']
+            wokStation = ', '.join(wokStation)
             embed.add_field(name="Wok Station:", value=wokStation, inline=False)
         except:
             pass
         
         try:
+            homeZone = manzyLunch['Home Zone']
+            homeZone = ', '.join(homeZone)
             embed.add_field(name="Home Zone:", value=homeZone, inline=False)
         except:
             pass
         
         try:
+            deliSweets = manzyLunch['Deli/Sweets']
+            deliSweets = ', '.join(deliSweets)
             embed.add_field(name='Deli/Sweets', value=deliSweets, inline=False)
         except:
             pass
         
         try:
+            saladBar = manzyDinner['Salad Bar']
+            saladBar = ', '.join(saladBar)
             embed.add_field(name='Salad Bar', value=saladBar, inline=False)
         except:
             pass
         
         try:
+            waffleStation = manzyLunch['Waffle Station']
+            waffleStation = ', '.join(waffleStation)
             embed.add_field(name='Waffle Station', value=waffleStation, inline=False)
         except:
             pass
         
         try:
+            grill = manzyLunch['Grill']
+            grill = ', '.join(grill)
             embed.add_field(name='Grill', value=grill, inline=False)
         except:
             pass
         
         try:
+            pizza = manzyLunch['Pizza']
+            pizza = ', '.join(pizza)
             embed.add_field(name='Pizza', value=pizza, inline=True)
         except:
             pass
         
         try:
+            sazonStation = manzyLunch['Sazon Station']
+            sazonStation = ', '.join(sazonStation)
             embed.add_field(name='Sazon Station', value=sazonStation, inline=False)
         except:
             pass
         
         try:
+            soup = manzyLunch['Soups']
+            soup = ', '.join(soup)
             embed.add_field(name='Soups', value=soup, inline=False)
         except:
             pass
         
         try:
+            trueBalance = manzyLunch['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name='True Balance:', value=trueBalance, inline=False)
         except:
             pass
         
         try:
+            weeklyBarRotation = manzyLunch['Weekly Bar Rotation']
+            weeklyBarRotation = ', '.join(weeklyBarRotation)
             embed.add_field(name='Weekly Bar Rotation', value=weeklyBarRotation, inline=False)
         except:
             pass
@@ -1556,104 +1733,90 @@ async def manzy(ctx, arg1):
         
     elif(arg1.lower() == 'dinner'):
         
-        
-        dailyRoot = manzyDinner['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        wokStation = manzyDinner['Wok Station']
-        wokStation = ', '.join(wokStation)
-        
-        homeZone = manzyDinner['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        deliSweets = manzyDinner['Deli/Sweets']
-        deliSweets = ', '.join(deliSweets)
-        
-        saladBar = manzyDinner['Salad Bar']
-        saladBar = ', '.join(saladBar)
-        
-        waffleStation = manzyDinner['Waffle Station']
-        waffleStation = ', '.join(waffleStation)
-        
-        grill = manzyDinner['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = manzyDinner['Pizza']
-        pizza = ', '.join(pizza)
-        
-        sazonStation = manzyDinner['Sazon Station']
-        sazonStation = ', '.join(sazonStation)
-        
-        soup = manzyDinner['Soups']
-        soup = ', '.join(soup)
-        
-        trueBalance = manzyDinner['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        weeklyBarRotation = manzyDinner['Weekly Bar Rotation']
-        weeklyBarRotation = ', '.join(weeklyBarRotation)
-        
-        
         embed = discord.Embed(title='Manzanita Dining Hall Dinner', description= 'Manzanita Dining Hall Dinner Menu')
     
         embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
         
         try:
+            dailyRoot = manzyDinner['Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            wokStation = manzyDinner['Wok Station']
+            wokStation = ', '.join(wokStation)
             embed.add_field(name="Wok Station:", value=wokStation, inline=False)
         except:
             pass
         
         try:
+            homeZone = manzyDinner['Home Zone']
+            homeZone = ', '.join(homeZone)
             embed.add_field(name="Home Zone:", value=homeZone, inline=False)
         except:
             pass
         
         try:
+            deliSweets = manzyDinner['Deli/Sweets']
+            deliSweets = ', '.join(deliSweets)
             embed.add_field(name='Deli/Sweets', value=deliSweets, inline=False)
         except:
             pass
         
         try:
+            saladBar = manzyDinner['Salad Bar']
+            saladBar = ', '.join(saladBar)
             embed.add_field(name='Salad Bar', value=saladBar, inline=False)
         except:
             pass
         
         try:
+            waffleStation = manzyDinner['Waffle Station']
+            waffleStation = ', '.join(waffleStation)
             embed.add_field(name='Waffle Station', value=waffleStation, inline=False)
         except:
             pass
         
         try:
+            grill = manzyDinner['Grill']
+            grill = ', '.join(grill)
             embed.add_field(name='Grill', value=grill, inline=False)
         except:
             pass
         
         try:
+            pizza = manzyDinner['Pizza']
+            pizza = ', '.join(pizza)
             embed.add_field(name='Pizza', value=pizza, inline=True)
         except:
             pass
         
         try:
+            sazonStation = manzyDinner['Sazon Station']
+            sazonStation = ', '.join(sazonStation)
             embed.add_field(name='Sazon Station', value=sazonStation, inline=False)
         except:
             pass
         
         try:
+            soup = manzyDinner['Soups']
+            soup = ', '.join(soup)
             embed.add_field(name='Soups', value=soup, inline=False)
         except:
             pass
         
         try:
+            trueBalance = manzyDinner['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name='True Balance:', value=trueBalance, inline=False)
         except:
             pass
         
         try:
+            weeklyBarRotation = manzyDinner['Weekly Bar Rotation']
+            weeklyBarRotation = ', '.join(weeklyBarRotation)
             embed.add_field(name='Weekly Bar Rotation', value=weeklyBarRotation, inline=False)
         except:
             pass
@@ -1662,82 +1825,74 @@ async def manzy(ctx, arg1):
         embed.set_image(url="https://i.imgur.com/GSx3eR2.png")
     
     elif(arg1.lower() == 'brunch'):
-        if(current_day != 5 and current_day != 6):
-            ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
+        if(current_day != 4 and current_day != 5 and current_day != 6):
+            await ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
             return
-        
-        dailyRoot = manzyBrunch['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        wokStation = manzyBrunch['Wok Station']
-        wokStation = ', '.join(wokStation)
-        
-        homeZone = manzyBrunch['Home Zone']
-        homeZone = ', '.join(homeZone)
-        
-        saladBar = manzyBrunch['Salad Bar']
-        saladBar = ', '.join(saladBar)
-        
-        waffleStation = manzyBrunch['Waffle Station']
-        waffleStation = ', '.join(waffleStation)
-        
-        grill = manzyBrunch['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = manzyBrunch['Pizza']
-        pizza = ', '.join(pizza)
-        
-        sazonStation = manzyBrunch['Sazon Station']
-        sazonStation = ', '.join(sazonStation)
-        
-        trueBalance = manzyBrunch['True Balance']
-        trueBalance = ', '.join(trueBalance)
+
         
         embed = discord.Embed(title='Manzanita Dining Hall Brunch', description= 'Manzanita Dining Hall Brunch Menu')
     
         embed.set_thumbnail(url="https://i.imgur.com/DKR50qf.jpg")
         
         try:
+            dailyRoot = manzyBrunch['Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            wokStation = manzyBrunch['Wok Station']
+            wokStation = ', '.join(wokStation)
             embed.add_field(name="Wok Station:", value=wokStation, inline=False)
         except:
             pass
         
         try:
+            homeZone = manzyBrunch['Home Zone']
+            homeZone = ', '.join(homeZone)
             embed.add_field(name="Home Zone:", value=homeZone, inline=False)
         except:
             pass
         
         try:
+            saladBar = manzyBrunch['Salad Bar']
+            saladBar = ', '.join(saladBar)
             embed.add_field(name='Salad Bar', value=saladBar, inline=False)
         except:
             pass
         
         try:
+            waffleStation = manzyBrunch['Waffle Station']
+            waffleStation = ', '.join(waffleStation)
             embed.add_field(name='Waffle Station', value=waffleStation, inline=False)
         except:
             pass
         
         try:
+            grill = manzyBrunch['Grill']
+            grill = ', '.join(grill)
             embed.add_field(name='Grill', value=grill, inline=False)
         except:
             pass
         
         try:
+            pizza = manzyBrunch['Pizza']
+            pizza = ', '.join(pizza)
             embed.add_field(name='Pizza', value=pizza, inline=True)
         except:
             pass
         
         try:
+            sazonStation = manzyBrunch['Sazon Station']
+            sazonStation = ', '.join(sazonStation)
             embed.add_field(name='Sazon Station', value=sazonStation, inline=False)
         except:
             pass
         
         try:
+            trueBalance = manzyBrunch['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name='True Balance:', value=trueBalance, inline=False)
         except:
             pass
@@ -1745,63 +1900,65 @@ async def manzy(ctx, arg1):
         embed.set_image(url="https://i.imgur.com/GSx3eR2.png")
         
     else:
-        ctx.send("You have requested an invalid meal, please try again")
+        await ctx.send("You have requested an invalid meal, please try again")
     
     await ctx.send(embed=embed)
 
 
-@bot.command(name='hassayampa', alias=['hassy'])
+@bot.command(name='hassayampa', aliases=['hassy'])
 async def hassy(ctx, arg1):
+    
+    # print("\n\n")
+    # print(hassyBreakfast)
+    # print("\n\n")
+    # print(hassyLunch)
+    # print("\n\n")
+    # print(hassyDinner)
     
     now = datetime.now()
     current_day = now.weekday()
     
     if(arg1.lower() == 'breakfast'):
         
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+        if(current_day == 4 or current_day == 5 or current_day == 6):
+            await ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
             return
-        
-        dailyRoot = hassyBreakfast['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        saladBar = hassyBreakfast['Salad Bar']
-        saladBar = ', '.join(saladBar)
-        
-        homeStation = hassyBreakfast['Home Station']
-        homeStation = ', '.join(homeStation)
-        
-        smokehouse = hassyBreakfast['Smokehouse & Grill']
-        smokehouse = ', '.join(smokehouse)
-        
-        trueBalance = hassyBreakfast['True Balance']
-        trueBalance = ', '.join(trueBalance)
         
         embed = discord.Embed(title='Hassayampa Dining Hall Breakfast', description= 'Hassayampa Dining Hall Breakfast Menu')
         
         embed.set_thumbnail(url="https://imgur.com/a/HTJJsSe")
         
         try:
+            dailyRoot = hassyBreakfast['Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            saladBar = hassyBreakfast['Salad Bar']
+            saladBar = ', '.join(saladBar)
             embed.add_field(name="Salad Bar:", value=saladBar, inline=False)
         except:
             pass
         
         try:
+            homeStation = hassyBreakfast['Home Station']
+            homeStation = ', '.join(homeStation)
             embed.add_field(name="Home Station:", value=homeStation, inline=False)
         except:
             pass
         
         try:
+            smokehouse = hassyBreakfast['Smokehouse & Grill']
+            smokehouse = ', '.join(smokehouse)
             embed.add_field(name="Smokehouse & Grill:", value=smokehouse, inline=False)
         except:
             pass
         
         try:
+            trueBalance = hassyBreakfast['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name="True Balance:", value=trueBalance, inline=False)
         except:
             pass
@@ -1810,74 +1967,68 @@ async def hassy(ctx, arg1):
         
     elif(arg1.lower() == 'lunch'):
         
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+        if(current_day == 4 or current_day == 5 or current_day == 6):
+            await ctx.send("This dining hall is not serving Lunch today, try requesting Brunch instead")
             return
         
-        dailyRoot = hassyLunch['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
         
-        saladBar = hassyLunch['Salad Bar']
-        saladBar = ', '.join(saladBar)
-        
-        deliStation = hassyLunch['Deli Station']
-        deliStation = ', '.join(deliStation)
-        
-        homeStation = hassyLunch['Home Station']
-        homeStation = ', '.join(homeStation)
-        
-        kosherBistro = hassyLunch['Kosher Bistro']
-        kosherBistro = ', '.join(kosherBistro)
-        
-        pizzaOven = hassyLunch['Pizza Oven']
-        pizzaOven = ', '.join(pizzaOven)
-        
-        smokehouse = hassyLunch['Smokehouse & Grill']
-        smokehouse = ', '.join(smokehouse)
-        
-        trueBalance = hassyLunch['True Balance']
-        trueBalance = ', '.join(trueBalance)
         
         embed = discord.Embed(title='Hassayampa Dining Hall Lunch', description= 'Hassayampa Dining Hall Lunch Menu')
         
         embed.set_thumbnail(url="https://imgur.com/a/HTJJsSe")
         
         try:
+            dailyRoot = hassyLunch['Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            saladBar = hassyLunch['Salad Bar']
+            saladBar = ', '.join(saladBar)
             embed.add_field(name="Salad Bar:", value=saladBar, inline=False)
         except:
             pass
         
         try:
+            deliStation = hassyLunch['Deli Station']
+            deliStation = ', '.join(deliStation)
             embed.add_field(name="Deli Station:", value=deliStation, inline=False)
         except:
             pass
         
         try:
+            homeStation = hassyLunch['Home Station']
+            homeStation = ', '.join(homeStation)
             embed.add_field(name="Home Station:", value=homeStation, inline=False)
         except:
             pass
         
         try:
+            kosherBistro = hassyLunch['Kosher Bistro']
+            kosherBistro = ', '.join(kosherBistro)
             embed.add_field(name="Kosher Bistro:", value=kosherBistro, inline=False)
         except:
             pass
         
         try:
+            pizzaOven = hassyLunch['Pizza Oven']
+            pizzaOven = ', '.join(pizzaOven)
             embed.add_field(name="Pizza Oven:", value=pizzaOven, inline=False)
         except:
             pass
         
         try:
+            smokehouse = hassyLunch['Smokehouse & Grill']
+            smokehouse = ', '.join(smokehouse)
             embed.add_field(name="Smokehouse & Grill:", value=smokehouse, inline=False)
         except:
             pass
         
         try:
+            trueBalance = hassyLunch['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name="True Balance:", value=trueBalance, inline=False)
         except:
             pass
@@ -1886,69 +2037,61 @@ async def hassy(ctx, arg1):
     
     elif(arg1.lower() == 'dinner'):
         
-        dailyRoot = hassyDinner['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        saladBar = hassyDinner['Salad Bar']
-        saladBar = ', '.join(saladBar)
-        
-        deliStation = hassyDinner['Deli Station']
-        deliStation = ', '.join(deliStation)
-        
-        homeStation = hassyDinner['Home Station']
-        homeStation = ', '.join(homeStation)
-        
-        kosherBistro = hassyDinner['Kosher Bistro']
-        kosherBistro = ', '.join(kosherBistro)
-        
-        pizzaOven = hassyDinner['Pizza Oven']
-        pizzaOven = ', '.join(pizzaOven)
-        
-        smokehouse = hassyDinner['Smokehouse & Grill']
-        smokehouse = ', '.join(smokehouse)
-        
-        trueBalance = hassyDinner['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
         embed = discord.Embed(title='Hassayampa Dining Hall Dinner', description= 'Hassayampa Dining Hall Dinner Menu')
         embed.set_thumbnail(url="https://imgur.com/a/HTJJsSe")
         
         try:
+            dailyRoot = hassyDinner['Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            saladBar = hassyDinner['Salad Bar']
+            saladBar = ', '.join(saladBar)
             embed.add_field(name="Salad Bar:", value=saladBar, inline=False)
         except:
             pass
         
         try:
+            deliStation = hassyDinner['Deli Station']
+            deliStation = ', '.join(deliStation)
             embed.add_field(name="Deli Station:", value=deliStation, inline=False)
         except:
             pass
         
         try:
+            homeStation = hassyDinner['Home Station']
+            homeStation = ', '.join(homeStation)
             embed.add_field(name="Home Station:", value=homeStation, inline=False)
         except:
             pass
         
         try:
+            kosherBistro = hassyDinner['Kosher Bistro']
+            kosherBistro = ', '.join(kosherBistro)
             embed.add_field(name="Kosher Bistro:", value=kosherBistro, inline=False)
         except:
             pass
         
         try:
+            pizzaOven = hassyDinner['Pizza Oven']
+            pizzaOven = ', '.join(pizzaOven)
             embed.add_field(name="Pizza Oven:", value=pizzaOven, inline=False)
         except:
             pass
         
         try:
+            smokehouse = hassyDinner['Smokehouse & Grill']
+            smokehouse = ', '.join(smokehouse)
             embed.add_field(name="Smokehouse & Grill:", value=smokehouse, inline=False)
         except:
             pass
         
         try:
+            trueBalance = hassyDinner['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name="True Balance:", value=trueBalance, inline=False)
         except:
             pass
@@ -1957,65 +2100,58 @@ async def hassy(ctx, arg1):
     
     elif(arg1.lower() =='brunch'):
         
-        if(current_day != 5 and current_day != 6):
-            ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
+        if(current_day != 4 and current_day != 5 and current_day != 6):
+            await ctx.send("This dining hall is not serving Brunch today, try requesting Breakfast or Lunch instead")
             return
-        
-        dailyRoot = hassyBrunch['Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        saladBar = hassyBrunch['Salad Bar']
-        saladBar = ', '.join(saladBar)
-        
-        deliStation = hassyBrunch['Deli Station']
-        deliStation = ', '.join(deliStation)
-        
-        homeStation = hassyBrunch['Home Station']
-        homeStation = ', '.join(homeStation)
-        
-        pizzaOven = hassyBrunch['Pizza Oven']
-        pizzaOven = ', '.join(pizzaOven)
-        
-        smokehouse = hassyBrunch['Smokehouse & Grill']
-        smokehouse = ', '.join(smokehouse)
-        
-        trueBalance = hassyBrunch['True Balance']
-        trueBalance = ', '.join(trueBalance)
         
         embed = discord.Embed(title='Hassayampa Dining Hall Brunch', description= 'Hassayampa Dining Hall Brunch Menu')
         embed.set_thumbnail(url="https://imgur.com/a/HTJJsSe")
         
         try:
+            dailyRoot = hassyBrunch['Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            saladBar = hassyBrunch['Salad Bar']
+            saladBar = ', '.join(saladBar)
             embed.add_field(name="Salad Bar:", value=saladBar, inline=False)
         except:
             pass
         
         try:
+            deliStation = hassyBrunch['Deli Station']
+            deliStation = ', '.join(deliStation)
             embed.add_field(name="Deli Station:", value=deliStation, inline=False)
         except:
             pass
         
         try:
+            homeStation = hassyBrunch['Home Station']
+            homeStation = ', '.join(homeStation)
             embed.add_field(name="Home Station:", value=homeStation, inline=False)
         except:
             pass
         
         try:
+            pizzaOven = hassyBrunch['Pizza Oven']
+            pizzaOven = ', '.join(pizzaOven)
             embed.add_field(name="Pizza Oven:", value=pizzaOven, inline=False)
         except:
             pass
         
         try:
+            smokehouse = hassyBrunch['Smokehouse & Grill']
+            smokehouse = ', '.join(smokehouse)
             embed.add_field(name="Smokehouse & Grill:", value=smokehouse, inline=False)
         except:
             pass
         
         try:
+            trueBalance = hassyBrunch['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name="True Balance:", value=trueBalance, inline=False)
         except:
             pass
@@ -2023,70 +2159,72 @@ async def hassy(ctx, arg1):
         embed.set_image(url="https://imgur.com/a/TEkqYiC")
         
     else:
-        ctx.send("You have requested an invalid meal, please try again")
+        await ctx.send("You have requested an invalid meal, please try again")
     
     await ctx.send(embed=embed)
         
 
 @bot.command(name='barrett')
 async def barret(ctx, arg1):
+       
+    # print("\n\n")
+    # print(barrettBreakfast)
+    # print("\n\n")
+    # print(barrettLunch)
+    # print("\n\n")
+    # print(barrettDinner)
         
     now = datetime.now()
     current_day = now.weekday()
     
     if(arg1.lower() == 'breakfast'):
         
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+        if(current_day == 4 or current_day == 5 or current_day == 6):
+            await ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
             return
         
-        saladBar = barrettBreakfast['Salad Bar']
-        saladBar = ', '.join(saladBar)
-        
-        grill = barrettBreakfast['Grill']
-        grill = ', '.join(grill)
-        
-        trueBalance = barrettBreakfast['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        dailyRoot = barrettBreakfast['The Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        dessert = barrettBreakfast['Dessert/Waffle']
-        dessert = ', '.join(dessert)
-        
-        omelets = barrettBreakfast['Omelets']
-        omelets = ', '.join(omelets)
         
         embed = discord.Embed(title='Barrett Dining Hall Breakfast', description= 'Barrett Dining Hall Breakfast Menu')
         embed.set_thumbnail(url="https://imgur.com/a/slcg2XT")
         
         try:
+            saladBar = barrettBreakfast['Salad Bar']
+            saladBar = ', '.join(saladBar)
             embed.add_field(name="Salad Bar:", value=saladBar, inline=False)
         except:
             pass
         
         try:
+            grill = barrettBreakfast['Grill']
+            grill = ', '.join(grill)
             embed.add_field(name="Grill:", value=grill, inline=False)
         except:
             pass
         
         try:
+            trueBalance = barrettBreakfast['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name="True Balance:", value=trueBalance, inline=False)
         except:
             pass
         
         try:
+            dailyRoot = barrettBreakfast['The Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="The Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            dessert = barrettBreakfast['Dessert/Waffle']
+            dessert = ', '.join(dessert)
             embed.add_field(name="Dessert/Waffle:", value=dessert, inline=False)
         except:
             pass
         
         try:
+            omelets = barrettBreakfast['Omelets']
+            omelets = ', '.join(omelets)
             embed.add_field(name="Omelets:", value=omelets, inline=False)
         except:
             pass
@@ -2096,72 +2234,78 @@ async def barret(ctx, arg1):
     elif(arg1.lower() == 'lunch'):
         
         if(current_day == 5 and current_day == 6):
-            ctx.send("This dining hall is not serving Lunch today, try requesting Brunch instead")
+            await ctx.send("This dining hall is not serving Lunch today, try requesting Brunch instead")
             return
         
-        homeZone1 = barrettLunch['Home Zone 1']
-        homeZone1 = ', '.join(homeZone1)
         
-        deli = barrettLunch['Deli']
-        deli = ', '.join(deli)
         
-        saladBar = barrettLunch['Salad Bar']
-        saladBar = ', '.join(saladBar)
         
-        grill = barrettLunch['Grill']
-        grill = ', '.join(grill)
         
-        pizza = barrettLunch['Pizza']
-        pizza = ', '.join(pizza)
         
-        trueBalance = barrettLunch['True Balance']
-        trueBalance = ', '.join(trueBalance)
         
-        dailyRoot = barrettLunch['The Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
         
-        soup = barrettLunch['Soup Station']
-        soup = ', '.join(soup)
+        
+        
+        
+        
+        
+        
         
         embed = discord.Embed(title='Barrett Dining Hall Lunch', description= 'Barrett Dining Hall Lunch Menu')
         embed.set_thumbnail(url="https://imgur.com/a/slcg2XT")
         
         try:
+            homeZone1 = barrettLunch['Home Zone 1']
+            homeZone1 = ', '.join(homeZone1)
             embed.add_field(name="Home Zone 1:", value=homeZone1, inline=False)
         except:
             pass
         
         try:
+            deli = barrettLunch['Deli']
+            deli = ', '.join(deli)
             embed.add_field(name="Deli:", value=deli, inline=False)
         except:
             pass
         
         try:
+            saladBar = barrettLunch['Salad Bar']
+            saladBar = ', '.join(saladBar)
             embed.add_field(name="Salad Bar:", value=saladBar, inline=False)
         except:
             pass
         
         try:
+            grill = barrettLunch['Grill']
+            grill = ', '.join(grill)
             embed.add_field(name="Grill:", value=grill, inline=False)
         except:
             pass
         
         try:
+            pizza = barrettLunch['Pizza']
+            pizza = ', '.join(pizza)
             embed.add_field(name="Pizza:", value=pizza, inline=False)
         except:
             pass
         
         try:
+            trueBalance = barrettLunch['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name="True Balance:", value=trueBalance, inline=False)
         except:
             pass
         
         try:
+            dailyRoot = barrettLunch['The Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="The Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            soup = barrettLunch['Soup Station']
+            soup = ', '.join(soup)
             embed.add_field(name="Soup Station:", value=soup, inline=False)
         except:
             pass
@@ -2170,69 +2314,62 @@ async def barret(ctx, arg1):
         
     elif(arg1.lower() == 'dinner'):
         
-        homeZone1 = barrettDinner['Home Zone 1']
-        homeZone1 = ', '.join(homeZone1)
-        
-        deli = barrettDinner['Deli']
-        deli = ', '.join(deli)
-        
-        saladBar = barrettDinner['Salad Bar']
-        saladBar = ', '.join(saladBar)
-        
-        grill = barrettDinner['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = barrettDinner['Pizza']
-        pizza = ', '.join(pizza)
-        
-        trueBalance = barrettDinner['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        dailyRoot = barrettDinner['The Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
-        soup = barrettDinner['Soup Station']
-        soup = ', '.join(soup)
         
         embed = discord.Embed(title='Barrett Dining Hall Dinner', description= 'Barrett Dining Hall Dinner Menu')
         embed.set_thumbnail(url="https://imgur.com/a/slcg2XT")
         
         try:
+            homeZone1 = barrettDinner['Home Zone 1']
+            homeZone1 = ', '.join(homeZone1)
             embed.add_field(name="Home Zone 1:", value=homeZone1, inline=False)
         except:
             pass
         
         try:
+            deli = barrettDinner['Deli']
+            deli = ', '.join(deli)
             embed.add_field(name="Deli:", value=deli, inline=False)
         except:
             pass
         
         try:
+            saladBar = barrettDinner['Salad Bar']
+            saladBar = ', '.join(saladBar)
             embed.add_field(name="Salad Bar:", value=saladBar, inline=False)
         except:
             pass
         
         try:
+            grill = barrettDinner['Grill']
+            grill = ', '.join(grill)
             embed.add_field(name="Grill:", value=grill, inline=False)
         except:
             pass
         
         try:
+            pizza = barrettDinner['Pizza']
+            pizza = ', '.join(pizza)
             embed.add_field(name="Pizza:", value=pizza, inline=False)
         except:
             pass
         
         try:
+            trueBalance = barrettDinner['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name="True Balance:", value=trueBalance, inline=False)
         except:
             pass
         
         try:
+            dailyRoot = barrettDinner['The Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="The Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
         
         try:
+            soup = barrettDinner['Soup Station']
+            soup = ', '.join(soup)
             embed.add_field(name="Soup Station:", value=soup, inline=False)
         except:
             pass
@@ -2241,50 +2378,45 @@ async def barret(ctx, arg1):
     
     elif(arg1.lower() == 'brunch'):
         
-        if(current_day != 5 and current_day != 6):
-            ctx.send("This dining hall is not serving Brunch today, try requesting Lunch or Breakfast instead")
+        if(current_day != 4 and current_day != 5 and current_day != 6):
+            await ctx.send("This dining hall is not serving Brunch today, try requesting Lunch or Breakfast instead")
             return
             
-        homeZone1 = barrettBrunch['Home Zone 1']
-        homeZone1 = ', '.join(homeZone1)
-        
-        grill = barrettBrunch['Grill']
-        grill = ', '.join(grill)
-        
-        pizza = barrettBrunch['Pizza']
-        pizza = ', '.join(pizza)
-        
-        trueBalance = barrettBrunch['True Balance']
-        trueBalance = ', '.join(trueBalance)
-        
-        dailyRoot = barrettBrunch['The Daily Root']
-        dailyRoot = ', '.join(dailyRoot)
-        
         
         embed = discord.Embed(title='Barrett Dining Hall Dinner', description= 'Barrett Dining Hall Dinner Menu')
         embed.set_thumbnail(url="https://imgur.com/a/slcg2XT")
         
         try:
+            homeZone1 = barrettBrunch['Home Zone 1']
+            homeZone1 = ', '.join(homeZone1)
             embed.add_field(name="Home Zone 1:", value=homeZone1, inline=False)
         except:
             pass
         
         try:
+            grill = barrettBrunch['Grill']
+            grill = ', '.join(grill)
             embed.add_field(name="Grill:", value=grill, inline=False)
         except:
             pass
         
         try:
+            pizza = barrettBrunch['Pizza']
+            pizza = ', '.join(pizza)
             embed.add_field(name="Pizza:", value=pizza, inline=False)
         except:
             pass
         
         try:
+            trueBalance = barrettBrunch['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name="True Balance:", value=trueBalance, inline=False)
         except:
             pass
         
         try:
+            dailyRoot = barrettBrunch['The Daily Root']
+            dailyRoot = ', '.join(dailyRoot)
             embed.add_field(name="The Daily Root:", value=dailyRoot, inline=False)
         except:
             pass
@@ -2292,7 +2424,7 @@ async def barret(ctx, arg1):
         embed.set_image(url="https://imgur.com/a/GpBTJPA")
         
     else:
-        ctx.send("You have requested an invalid meal, please try again")
+        await ctx.send("You have requested an invalid meal, please try again")
     
     await ctx.send(embed=embed)
     
@@ -2300,55 +2432,56 @@ async def barret(ctx, arg1):
 @bot.command(name='pitchforks', aliases=['MU', 'memorial union'])
 async def pitchforks(ctx, arg1):
     
+    # print("\n\n")
+    # print(pitchforksBreakfast)
+    # print("\n\n")
+    # print(pitchforksLunch)
+    # print("\n\n")
+    # print(pitchforksDinner)
+    
     now = datetime.now()
     current_day = now.weekday()
     
     if(arg1.lower() == 'breakfast'):
         
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
+        if(current_day == 4 or current_day == 5 or current_day == 6):
+            await ctx.send("This dining hall is not serving Breakfast today, try requesting Brunch instead")
             return
-    
-    
-        international = pitchforksBreakfast['International']
-        international = ', '.join(international)
-        
-        vegan = pitchforksBreakfast['Vegan']
-        vegan = ', '.join(vegan)
-        
-        soups = pitchforksBreakfast['Soups']
-        soups = ', '.join(soups)
-        
-        waffle = pitchforksBreakfast['Waffle Station & Ice Cream']
-        waffle = ', '.join(waffle)
-        
-        trueBalance = pitchforksBreakfast['True Balance']
-        trueBalance = ', '.join(trueBalance)
         
         embed = discord.Embed(title='Pitchforks Dining Hall Breakfast', description= 'Pitchforks Dining Hall Breakfast Menu')
         embed.set_thumbnail(url="https://imgur.com/FvCWGxy")
         
         try:
+            international = pitchforksBreakfast['International']
+            international = ', '.join(international)
             embed.add_field(name="International:", value=international, inline=False)
         except:
             pass
         
         try:
+            vegan = pitchforksBreakfast['Vegan']
+            vegan = ', '.join(vegan)
             embed.add_field(name="Vegan:", value=vegan, inline=False)
         except:
             pass
         
         try:
+            soups = pitchforksBreakfast['Soups']
+            soups = ', '.join(soups)
             embed.add_field(name="Soups:", value=soups, inline=False)
         except:
             pass
         
         try:
+            waffle = pitchforksBreakfast['Waffle Station & Ice Cream']
+            waffle = ', '.join(waffle)
             embed.add_field(name="Waffle Station & Ice Cream:", value=waffle, inline=False)
         except:
             pass
         
         try:
+            trueBalance = pitchforksBreakfast['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name="True Balance:", value=trueBalance, inline=False)
         except:
             pass
@@ -2357,73 +2490,81 @@ async def pitchforks(ctx, arg1):
     
     elif(arg1.lower() == 'lunch'):
         
-        if(current_day == 5 or current_day == 6):
-            ctx.send("This dining hall is not serving Lunch today, try requesting Breakfast instead")
+        if(current_day == 4 or current_day == 5 or current_day == 6):
+            await ctx.send("This dining hall is not serving Lunch today, try requesting Breakfast instead")
             return
     
-        salad = pitchforksLunch['Salad & Deli']
-        salad = ', '.join(salad)
         
-        international = pitchforksLunch['International']
-        international = ', '.join(international)
         
-        vegan = pitchforksLunch['Vegan']
-        vegan = ', '.join(vegan)
         
-        pizza = pitchforksLunch['Pizza']
-        pizza = ', '.join(pizza)
         
-        asian = pitchforksLunch['Asian']
-        asian = ', '.join(asian)
         
-        limon = pitchforksLunch['Limon']
-        limon = ', '.join(limon)
         
-        soups = pitchforksLunch['Soups']
-        soups = ', '.join(soups)
         
-        trueBalance = pitchforksLunch['True Balance']
-        trueBalance = ', '.join(trueBalance)
+        
+        
+        
+        
+        
+        
+        
+        
         
         embed = discord.Embed(title='Pitchforks Dining Hall Lunch', description= 'Pitchforks Dining Hall Lunch Menu')
         embed.set_thumbnail(url="https://imgur.com/FvCWGxy")
         
         try:
+            salad = pitchforksLunch['Salad & Deli']
+            salad = ', '.join(salad)
             embed.add_field(name="Salad & Deli:", value=salad, inline=False)
         except:
             pass
         
         try:
+            international = pitchforksLunch['International']
+            international = ', '.join(international)
             embed.add_field(name="International:", value=international, inline=False)
         except:
             pass
         
         try:
+            vegan = pitchforksLunch['Vegan']
+            vegan = ', '.join(vegan)
             embed.add_field(name="Vegan:", value=vegan, inline=False)
         except:
             pass
         
         try:
+            pizza = pitchforksLunch['Pizza']
+            pizza = ', '.join(pizza)
             embed.add_field(name="Pizza:", value=pizza, inline=False)
         except:
             pass
         
         try:
+            asian = pitchforksLunch['Asian']
+            asian = ', '.join(asian)
             embed.add_field(name="Asian:", value=asian, inline=False)
         except:
             pass
         
         try:
+            limon = pitchforksLunch['Limon']
+            limon = ', '.join(limon)
             embed.add_field(name="Limon:", value=limon, inline=False)
         except:
             pass
         
         try:
+            soups = pitchforksLunch['Soups']
+            soups = ', '.join(soups)
             embed.add_field(name="Soups:", value=soups, inline=False)
         except:
             pass
         
         try:
+            trueBalance = pitchforksLunch['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name="True Balance:", value=trueBalance, inline=False)
         except:
             pass
@@ -2433,69 +2574,62 @@ async def pitchforks(ctx, arg1):
     
     elif(arg1.lower() == 'dinner'):
         
-        salad = pitchforksDinner['Salad & Deli']
-        salad = ', '.join(salad)
-        
-        international = pitchforksDinner['International']
-        international = ', '.join(international)
-        
-        vegan = pitchforksDinner['Vegan']
-        vegan = ', '.join(vegan)
-        
-        pizza = pitchforksDinner['Pizza']
-        pizza = ', '.join(pizza)
-        
-        asian = pitchforksDinner['Asian']
-        asian = ', '.join(asian)
-        
-        limon = pitchforksDinner['Limon']
-        limon = ', '.join(limon)
-        
-        soups = pitchforksDinner['Soups']
-        soups = ', '.join(soups)
-        
-        trueBalance = pitchforksDinner['True Balance']
-        trueBalance = ', '.join(trueBalance)
         
         embed = discord.Embed(title='Pitchforks Dining Hall Dinner', description= 'Pitchforks Dining Hall Dinner Menu')
         embed.set_thumbnail(url="https://imgur.com/FvCWGxy")
         
         try:
+            salad = pitchforksDinner['Salad & Deli']
+            salad = ', '.join(salad)
             embed.add_field(name="Salad & Deli:", value=salad, inline=False)
         except:
             pass
         
         try:
+            international = pitchforksDinner['International']
+            international = ', '.join(international)
             embed.add_field(name="International:", value=international, inline=False)
         except:
             pass
         
         try:
+            vegan = pitchforksDinner['Vegan']
+            vegan = ', '.join(vegan)
             embed.add_field(name="Vegan:", value=vegan, inline=False)
         except:
             pass
         
         try:
+            pizza = pitchforksDinner['Pizza']
+            pizza = ', '.join(pizza)
             embed.add_field(name="Pizza:", value=pizza, inline=False)
         except:
             pass
         
         try:
+            asian = pitchforksDinner['Asian']
+            asian = ', '.join(asian)
             embed.add_field(name="Asian:", value=asian, inline=False)
         except:
             pass
         
         try:
+            limon = pitchforksDinner['Limon']
+            limon = ', '.join(limon)
             embed.add_field(name="Limon:", value=limon, inline=False)
         except:
             pass
         
         try:
+            soups = pitchforksDinner['Soups']
+            soups = ', '.join(soups)
             embed.add_field(name="Soups:", value=soups, inline=False)
         except:
             pass
         
         try:
+            trueBalance = pitchforksDinner['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name="True Balance:", value=trueBalance, inline=False)
         except:
             pass
@@ -2504,41 +2638,37 @@ async def pitchforks(ctx, arg1):
     
     elif(arg1.lower() == 'brunch'):
         
-        if(current_day != 5 and current_day != 6):
-            ctx.send("This dining hall is not serving Brunch today, try requesting Lunch or Breakfast instead")
+        if(current_day != 4 and current_day != 5 and current_day != 6):
+            await ctx.send("This dining hall is not serving Brunch today, try requesting Lunch or Breakfast instead")
             return
-        
-        international = pitchforksBrunch['International']
-        international = ', '.join(international)
-        
-        vegan = pitchforksBrunch['Vegan']
-        vegan = ', '.join(vegan)
-        
-        soups = pitchforksBrunch['Soups']
-        soups = ', '.join(soups)
-        
-        trueBalance = pitchforksBrunch['True Balance']
-        trueBalance = ', '.join(trueBalance)
         
         embed = discord.Embed(title='Pitchforks Dining Hall Brunch', description= 'Pitchforks Dining Hall Brunch Menu')
         embed.set_thumbnail(url="https://imgur.com/FvCWGxy")
         
         try:
+            international = pitchforksBrunch['International']
+            international = ', '.join(international)
             embed.add_field(name="International:", value=international, inline=False)
         except:
             pass
         
         try:
+            vegan = pitchforksBrunch['Vegan']
+            vegan = ', '.join(vegan)
             embed.add_field(name="Vegan:", value=vegan, inline=False)
         except:
             pass
         
         try:
+            soups = pitchforksBrunch['Soups']
+            soups = ', '.join(soups)
             embed.add_field(name="Soups:", value=soups, inline=False)
         except:
             pass
         
         try:
+            trueBalance = pitchforksBrunch['True Balance']
+            trueBalance = ', '.join(trueBalance)
             embed.add_field(name="True Balance:", value=trueBalance, inline=False)
         except:
             pass
@@ -2546,7 +2676,7 @@ async def pitchforks(ctx, arg1):
         embed.set_image(url="https://imgur.com/hlzODkP")
     
     else:
-        ctx.send("You have requested an invalid meal, please try again")
+        await ctx.send("You have requested an invalid meal, please try again")
     
     await ctx.send(embed=embed)
 
